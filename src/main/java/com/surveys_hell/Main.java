@@ -6,8 +6,9 @@ import com.surveys_hell.users_roles.infrastructure.controller.UsersRolesControll
 
 public class Main {
     public static void main(String[] args) {
+        
         // new RolesController();
         // new UsersController();
-        new UsersRolesController();
+        // new UsersRolesController();
     }
 }

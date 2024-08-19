@@ -12,8 +12,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import com.surveys_hell.roles.domain.entity.Roles;
-import com.surveys_hell.roles.infrastructure.controller.RolesController;
 import com.surveys_hell.users_roles.application.CreateUsersRolesUseCase;
 import com.surveys_hell.users_roles.application.DeleteUsersRolesUseCase;
 import com.surveys_hell.users_roles.application.FindUsersRolesUseCase;
@@ -182,7 +180,7 @@ public class UsersRolesController extends JFrame{
     private JPanel createAddPanel() {
         JPanel panel = new JPanel(new BorderLayout());
     
-        JPanel formPanel = new JPanel(new GridLayout(5, 1, 10, 10));
+        JPanel formPanel = new JPanel(new GridLayout(7, 1, 10, 10));
     
         JLabel usersLabel = new JLabel("Enter Users ID:");
         JLabel rolesLabel = new JLabel("Enter Roles ID:");
@@ -238,7 +236,7 @@ public class UsersRolesController extends JFrame{
     private JPanel createSearchPanel() {
         JPanel panel = new JPanel(new BorderLayout());
     
-        JPanel formPanel = new JPanel(new GridLayout(6, 1, 10, 10));
+        JPanel formPanel = new JPanel(new GridLayout(7, 1, 10, 10));
     
         JLabel userIdLabel = new JLabel("Enter Users ID:");
         JLabel roleIdLabel = new JLabel("Enter Roles ID:");
@@ -293,11 +291,11 @@ public class UsersRolesController extends JFrame{
     private JPanel createUpdatePanel() {
         JPanel panel = new JPanel(new BorderLayout());
     
-        JPanel formPanel = new JPanel(new GridLayout(4, 1, 10, 10));
+        JPanel formPanel = new JPanel(new GridLayout(7, 1, 10, 10));
     
-        JLabel usersIdLabel = new JLabel("Enter Users ID:");
+        JLabel usersIdLabel = new JLabel("Enter new Users ID:");
         JTextField usersIdField = new JTextField(20);
-        JLabel rolesIdLabel = new JLabel("Enter Roles ID:");
+        JLabel rolesIdLabel = new JLabel("Enter new Roles ID:");
         JTextField rolesIdField = new JTextField(20);
         JButton submitButton = createRoundedButton("Update");
         JButton backButton = createRoundedButton("Back");
@@ -346,7 +344,7 @@ public class UsersRolesController extends JFrame{
     private JPanel createDeletePanel() {
         JPanel panel = new JPanel(new BorderLayout());
     
-        JPanel formPanel = new JPanel(new GridLayout(4, 1, 10, 10));
+        JPanel formPanel = new JPanel(new GridLayout(7, 1, 10, 10));
     
         JLabel userIdLabel = new JLabel("Enter Users ID:");
         JLabel roleIdLabel = new JLabel("Enter Roles ID:");

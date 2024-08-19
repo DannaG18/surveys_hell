@@ -391,7 +391,7 @@ public class UsersController extends JFrame{
                 ID: %d
                 Enable: %s
                 UserName: %s
-                Password: %d
+                Password: %s
                 """, users.getId(), users.isEnabled(), users.getUsername(), users.getPassword());
         JOptionPane.showMessageDialog(this, details, "Users Details", JOptionPane.INFORMATION_MESSAGE);
     }
