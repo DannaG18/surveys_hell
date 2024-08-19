@@ -1,36 +1,38 @@
-package com.surveys_hell.roles.infrastructure.controller;
+package com.surveys_hell.users.infrastructure.controller;
 
 import javax.swing.*;
 import java.awt.*;
-import com.surveys_hell.roles.application.CreateRolesUseCase;
-import com.surveys_hell.roles.application.DeleteRolesUseCase;
-import com.surveys_hell.roles.application.FindRolesUseCase;
-import com.surveys_hell.roles.application.UpdateRolesUseCase;
-import com.surveys_hell.roles.domain.entity.Roles;
-import com.surveys_hell.roles.domain.service.RolesService;
-import com.surveys_hell.roles.infrastructure.repository.RolesRepository;
 
-public class RolesController extends JFrame {
-    private final RolesService rolesService;
-    private final CreateRolesUseCase createRolesUseCase;
-    private final FindRolesUseCase findRolesUseCase;
-    private final UpdateRolesUseCase updateRolesUseCase;
-    private final DeleteRolesUseCase deleteRolesUseCase;
+import com.surveys_hell.users.domain.entity.Users;
+import com.surveys_hell.users.infrastructure.controller.UsersController;
+import com.surveys_hell.users.application.CreateUsersUseCase;
+import com.surveys_hell.users.application.DeleteUsersUseCase;
+import com.surveys_hell.users.application.FindUsersUseCase;
+import com.surveys_hell.users.application.UpdateUsersUseCase;
+import com.surveys_hell.users.domain.service.UsersService;
+import com.surveys_hell.users.infrastructure.repository.UsersRepository;
+
+public class UsersController extends JFrame{
+    private final UsersService usersService;
+    private final CreateUsersUseCase createUsersUseCase;
+    private final FindUsersUseCase findUsersUseCase;
+    private final UpdateUsersUseCase updateUsersUseCase;
+    private final DeleteUsersUseCase deleteUsersUseCase;
 
     private JPanel mainPanel; // Panel principal del menú
     private CardLayout cardLayout; // Layout para cambiar entre paneles
 
-    public RolesController() {
-        this.rolesService = new RolesRepository();
-        this.createRolesUseCase = new CreateRolesUseCase(rolesService);
-        this.findRolesUseCase = new FindRolesUseCase(rolesService);
-        this.updateRolesUseCase = new UpdateRolesUseCase(rolesService);
-        this.deleteRolesUseCase = new DeleteRolesUseCase(rolesService);
+    public UsersController() {
+        this.usersService = new UsersRepository();
+        this.createUsersUseCase = new CreateUsersUseCase(usersService);
+        this.findUsersUseCase = new FindUsersUseCase(usersService);
+        this.updateUsersUseCase = new UpdateUsersUseCase(usersService);
+        this.deleteUsersUseCase = new DeleteUsersUseCase(usersService);
 
         // Configuración del JFrame
         ImageIcon windowIcon = new ImageIcon("src/main/resources/img/Hospital.png"); // Cambia esto a la ruta de tu imagen
         setIconImage(windowIcon.getImage());
-        setTitle("Roles Management Menu");
+        setTitle("Users Management Menu");
         setSize(400, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -44,10 +46,10 @@ public class RolesController extends JFrame {
         mainPanel.add(menuPanel, "Menu");
 
         // Paneles para cada operación
-        JPanel addPanel = createOperationPanel("Add Roles", "Add", createAddPanel());
-        JPanel searchPanel = createOperationPanel("Search Roles", "Search", createSearchPanel());
-        JPanel updatePanel = createOperationPanel("Update Roles", "Update", createUpdatePanel());
-        JPanel deletePanel = createOperationPanel("Delete Roles", "Delete", createDeletePanel());
+        JPanel addPanel = createOperationPanel("Add Users", "Add", createAddPanel());
+        JPanel searchPanel = createOperationPanel("Search Users", "Search", createSearchPanel());
+        JPanel updatePanel = createOperationPanel("Update Users", "Update", createUpdatePanel());
+        JPanel deletePanel = createOperationPanel("Delete Users", "Delete", createDeletePanel());
 
         // Añadir los paneles al CardLayout
         mainPanel.add(addPanel, "Add");
@@ -89,7 +91,7 @@ public class RolesController extends JFrame {
         JPanel panel = new JPanel(new BorderLayout());
 
         // Crear encabezado solo para el menú
-        JPanel headerPanel = createHeaderPanel("Roles CRUD");
+        JPanel headerPanel = createHeaderPanel("Users CRUD");
         panel.add(headerPanel, BorderLayout.NORTH);
 
         // Crear un panel para los botones con GridLayout
@@ -100,10 +102,10 @@ public class RolesController extends JFrame {
         marginPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Márgenes laterales
 
         // Crear botones personalizados con esquinas redondeadas
-        JButton addButton = createRoundedButton("Add Roles");
-        JButton searchButton = createRoundedButton("Search Roles");
-        JButton updateButton = createRoundedButton("Update Roles");
-        JButton deleteButton = createRoundedButton("Delete Roles");
+        JButton addButton = createRoundedButton("Add Users");
+        JButton searchButton = createRoundedButton("Search Users");
+        JButton updateButton = createRoundedButton("Update Users");
+        JButton deleteButton = createRoundedButton("Delete Users");
         JButton exitButton = createRoundedButton("Exit");
 
         buttonPanel.add(addButton);
@@ -169,50 +171,75 @@ public class RolesController extends JFrame {
 
     private JPanel createAddPanel() {
         JPanel panel = new JPanel(new BorderLayout());
-
-        JPanel formPanel = new JPanel(new GridLayout(5, 1, 10, 10));
-
-        JLabel nameLabel = new JLabel("Enter Roles name:");
-        JTextField nameField = new JTextField(10);
+    
+        JPanel formPanel = new JPanel(new GridLayout(6, 2, 10, 10));
+    
+        JLabel enableLabel = new JLabel("Enter Enable User:");
+        JLabel usernameLabel = new JLabel("Enter Username:");
+        JLabel passwordLabel = new JLabel("Enter Password:");
+    
+        // Reemplazar JCheckBox con JComboBox
+        String[] enableOptions = {"true", "false"};
+        JComboBox<String> enableComboBox = new JComboBox<>(enableOptions);
+        enableComboBox.setPreferredSize(new Dimension(100, 30)); // Ajustar el tamaño del JComboBox
+    
+        JTextField usernameField = new JTextField(10);
+        JTextField passwordField = new JTextField(10);
         JButton submitButton = createRoundedButton("Submit");
         JButton backButton = createRoundedButton("Back");
-
-        formPanel.add(nameLabel);
-        formPanel.add(nameField);
+    
+        formPanel.add(enableLabel);
+        formPanel.add(enableComboBox);
+        formPanel.add(usernameLabel);
+        formPanel.add(usernameField);
+        formPanel.add(passwordLabel);
+        formPanel.add(passwordField);
         formPanel.add(submitButton);
         formPanel.add(backButton);
-
+    
         // Añadir márgenes alrededor del formulario
         JPanel marginPanel = new JPanel(new BorderLayout());
         marginPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Márgenes laterales
         marginPanel.add(formPanel, BorderLayout.CENTER);
-
+    
         panel.add(marginPanel, BorderLayout.CENTER);
-
+    
         submitButton.addActionListener(e -> {
-            String name = nameField.getText().trim();
-            if (name.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Roles name cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
+            // Obtener el valor booleano del JComboBox
+            boolean enable = "true".equals(enableComboBox.getSelectedItem());
+            String username = usernameField.getText().trim();
+            String password = passwordField.getText().trim();
+    
+            if (username.isEmpty() || password.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Username and Password cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
-                Roles roles = new Roles();
-                roles.setName(name);
-                createRolesUseCase.execute(roles);
-                JOptionPane.showMessageDialog(this, "Roles added successfully.");
-                nameField.setText(""); // Limpiar el campo de texto
+                Users users = new Users();
+                users.setEnabled(enable);
+                users.setUsername(username);
+                users.setPassword(password);
+                createUsersUseCase.execute(users);
+                JOptionPane.showMessageDialog(this, "User added successfully.");
+    
+                enableComboBox.setSelectedIndex(0); // Restablecer el JComboBox a la opción por defecto
+                usernameField.setText(""); // Limpiar el campo de texto
+                passwordField.setText(""); // Limpiar el campo de texto
             }
         });
-
+    
         backButton.addActionListener(e -> cardLayout.show(mainPanel, "Menu"));
-
+    
         return panel;
     }
+    
+    
+    
 
     private JPanel createSearchPanel() {
         JPanel panel = new JPanel(new BorderLayout());
     
-        JPanel formPanel = new JPanel(new GridLayout(5, 1, 10, 10));
+        JPanel formPanel = new JPanel(new GridLayout(6, 1, 10, 10));
     
-        JLabel idLabel = new JLabel("Enter Roles ID:");
+        JLabel idLabel = new JLabel("Enter User ID:");
     
         JTextField idField = new JTextField(5);
         idField.setPreferredSize(new Dimension(300, 250)); // Ajusta la altura del campo de texto
@@ -238,9 +265,9 @@ public class RolesController extends JFrame {
         submitButton.addActionListener(e -> {
             try {
                 int id = Integer.parseInt(idField.getText().trim());
-                findRolesUseCase.execute(id).ifPresentOrElse(
-                    roles -> showRolesDetails(roles),
-                    () -> JOptionPane.showMessageDialog(this, "Roles not found.", "Error", JOptionPane.ERROR_MESSAGE)
+                findUsersUseCase.execute(id).ifPresentOrElse(
+                    users -> showUsersDetails(users),
+                    () -> JOptionPane.showMessageDialog(this, "Users not found.", "Error", JOptionPane.ERROR_MESSAGE)
                 );
                 idField.setText(""); // Limpiar el campo de texto
             } catch (NumberFormatException ex) {
@@ -256,64 +283,73 @@ public class RolesController extends JFrame {
 
     private JPanel createUpdatePanel() {
         JPanel panel = new JPanel(new BorderLayout());
-
-        JPanel formPanel = new JPanel(new GridLayout(5, 1, 10, 10));
-
-        JLabel idLabel = new JLabel("Enter Roles ID:");
-        JTextField idField = new JTextField(20);
-        JLabel nameLabel = new JLabel("Enter new Roles name:");
-        JTextField nameField = new JTextField(20);
+    
+        JPanel formPanel = new JPanel(new GridLayout(6, 1, 10, 10));
+    
+        JLabel enableLabel = new JLabel("Enter Enable User:");
+        JLabel usernameLabel = new JLabel("Enter Username:");
+        JLabel passwordLabel = new JLabel("Enter Password:");
+    
+        // Reemplazar JCheckBox con JComboBox
+        String[] enableOptions = {"true", "false"};
+        JComboBox<String> enableComboBox = new JComboBox<>(enableOptions);
+        enableComboBox.setPreferredSize(new Dimension(100, 30)); // Ajustar el tamaño del JComboBox
+    
+        JTextField usernameField = new JTextField(10);
+        JTextField passwordField = new JTextField(10);
         JButton submitButton = createRoundedButton("Update");
         JButton backButton = createRoundedButton("Back");
-
-        formPanel.add(idLabel);
-        formPanel.add(idField);
-        formPanel.add(nameLabel);
-        formPanel.add(nameField);
+    
+        formPanel.add(enableLabel);
+        formPanel.add(enableComboBox);
+        formPanel.add(usernameLabel);
+        formPanel.add(usernameField);
+        formPanel.add(passwordLabel);
+        formPanel.add(passwordField);
         formPanel.add(submitButton);
         formPanel.add(backButton);
-
+    
         // Añadir márgenes alrededor del formulario
         JPanel marginPanel = new JPanel(new BorderLayout());
         marginPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Márgenes laterales
         marginPanel.add(formPanel, BorderLayout.CENTER);
-
+    
         panel.add(marginPanel, BorderLayout.CENTER);
-
+    
         submitButton.addActionListener(e -> {
-            try {
-                int id = Integer.parseInt(idField.getText().trim());
-                String name = nameField.getText().trim();
-                if (name.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "Roles name cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-                findRolesUseCase.execute(id).ifPresentOrElse(
-                        roles -> {
-                            roles.setName(name);
-                            updateRolesUseCase.execute(roles);
-                            JOptionPane.showMessageDialog(this, "Roles updated successfully.");
-                            idField.setText("");
-                            nameField.setText("");
-                        },
-                        () -> JOptionPane.showMessageDialog(this, "Roles not found.", "Error", JOptionPane.ERROR_MESSAGE)
-                );
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "Invalid input. Please enter a valid integer.", "Error", JOptionPane.ERROR_MESSAGE);
+            // Obtener el valor booleano del JComboBox
+            boolean enable = "true".equals(enableComboBox.getSelectedItem());
+            String username = usernameField.getText().trim();
+            String password = passwordField.getText().trim();
+    
+            if (username.isEmpty() || password.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Username and Password cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                Users users = new Users();
+                users.setEnabled(enable);
+                users.setUsername(username);
+                users.setPassword(password);
+                updateUsersUseCase.execute(users);
+                JOptionPane.showMessageDialog(this, "User updated successfully.");
+    
+                enableComboBox.setSelectedIndex(0); // Restablecer el JComboBox a la opción por defecto
+                usernameField.setText(""); // Limpiar el campo de texto
+                passwordField.setText(""); // Limpiar el campo de texto
             }
         });
-
+    
         backButton.addActionListener(e -> cardLayout.show(mainPanel, "Menu"));
-
+    
         return panel;
     }
+    
 
     private JPanel createDeletePanel() {
         JPanel panel = new JPanel(new BorderLayout());
 
-        JPanel formPanel = new JPanel(new GridLayout(5, 1, 10, 10));
+        JPanel formPanel = new JPanel(new GridLayout(6, 1, 10, 10));
 
-        JLabel idLabel = new JLabel("Enter Roles ID:");
+        JLabel idLabel = new JLabel("Enter Users ID:");
         JTextField idField = new JTextField(20);
         JButton submitButton = createRoundedButton("Delete");
         JButton backButton = createRoundedButton("Back");
@@ -333,10 +369,10 @@ public class RolesController extends JFrame {
         submitButton.addActionListener(e -> {
             try {
                 int id = Integer.parseInt(idField.getText().trim());
-                int confirmation = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this Roles?", "Confirm Deletion", JOptionPane.YES_NO_OPTION);
+                int confirmation = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this Users?", "Confirm Deletion", JOptionPane.YES_NO_OPTION);
                 if (confirmation == JOptionPane.YES_OPTION) {
-                    deleteRolesUseCase.execute(id);
-                    JOptionPane.showMessageDialog(this, "Roles deleted successfully.");
+                    deleteUsersUseCase.execute(id);
+                    JOptionPane.showMessageDialog(this, "Users deleted successfully.");
                     idField.setText("");
                 }
             } catch (NumberFormatException ex) {
@@ -349,22 +385,18 @@ public class RolesController extends JFrame {
         return panel;
     }
 
-    private void showRolesDetails(Roles roles) {
+    private void showUsersDetails(Users users) {
         String details = String.format("""
-                Roles found:
+                Users found:
                 ID: %d
-                Name: %s
-                """, roles.getId(), roles.getName());
-        JOptionPane.showMessageDialog(this, details, "Roles Details", JOptionPane.INFORMATION_MESSAGE);
+                Enable: %s
+                UserName: %s
+                Password: %d
+                """, users.getId(), users.isEnabled(), users.getUsername(), users.getPassword());
+        JOptionPane.showMessageDialog(this, details, "Users Details", JOptionPane.INFORMATION_MESSAGE);
     }
 
     public static void main(String[] args) {
-        new RolesController();
+        new UsersController();
     }
 }
-
-
-
-
-
-
