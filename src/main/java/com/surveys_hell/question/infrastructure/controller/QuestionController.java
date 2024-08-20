@@ -174,7 +174,6 @@ public class QuestionController extends JFrame{
     
         JPanel formPanel = new JPanel(new GridLayout(6, 2, 10, 10));
         
-
         JLabel chapterIdLabel = new JLabel("Enter Chapter ID:");
         JLabel numberLabel = new JLabel("Enter Question Number:");
         JLabel responseTypeLabel = new JLabel("Enter Response Type:");

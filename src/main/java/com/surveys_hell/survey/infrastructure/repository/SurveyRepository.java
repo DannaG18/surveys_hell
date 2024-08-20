@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
@@ -83,6 +84,22 @@ public class SurveyRepository implements SurveyService{
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+    }
+
+    @Override
+    public void getAllSurvey(List<String> names) {
+        String sql = "SELECT name FROM surveys";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            try (ResultSet rs = ps.executeQuery()) {
+                if(rs.next()) {
+                    names.add(rs.getString("name"));
+                }
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 

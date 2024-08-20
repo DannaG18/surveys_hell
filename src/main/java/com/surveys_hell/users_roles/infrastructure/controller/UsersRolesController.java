@@ -1,6 +1,5 @@
 package com.surveys_hell.users_roles.infrastructure.controller;
 
-import javax.swing.*;
 import java.awt.*;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
