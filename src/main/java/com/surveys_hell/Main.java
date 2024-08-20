@@ -1,9 +1,10 @@
 package com.surveys_hell;
 
-import com.surveys_hell.roles.infrastructure.controller.RolesController;
+import com.surveys_hell.survey.infrastructure.controller.SurveyController;
 
 public class Main {
     public static void main(String[] args) {
-        new RolesController();
+        new SurveyController();
+
     }
 }
