@@ -184,8 +184,10 @@ public class OptionsUi extends JFrame{
         submitButton.addActionListener(e -> {
             // Obtener el valor booleano del JComboBox
             String name = (String) nameComboBox.getSelectedItem();
-    
+            
+            // Method for showing the survey
 
+            
         });
     
         backButton.addActionListener(e -> cardLayout.show(mainPanel, "Menu"));
