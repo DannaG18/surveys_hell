@@ -1,8 +1,8 @@
 package com.surveys_hell.survey.application;
 
-import com.surveys_hell.survey.domain.service.SurveyService;
-import javax.swing.JComboBox;
 import java.util.List;
+
+import com.surveys_hell.survey.domain.service.SurveyService;
 
 public class GetAllSurveyUseCase {
     private final SurveyService surveyService;
