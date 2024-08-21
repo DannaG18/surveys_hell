@@ -217,7 +217,7 @@ public class QuestionController extends JFrame{
             Date updatedAt = new Date(System.currentTimeMillis());
 
 
-            if (number.isEmpty() || responseType.isEmpty() || chapterId.isEmpty() || responseType.isEmpty() || questionComment.isEmpty() || questionText.isEmpty()) {
+            if (number.isEmpty() || responseType.isEmpty() || chapterId.isEmpty() || responseType.isEmpty() || questionText.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Chapter ID, Question Number, Response Type, Question Commnet, and Question Text cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
                 Question question = new Question();
@@ -334,7 +334,7 @@ public class QuestionController extends JFrame{
                 String questionComment = questionCommentField.getText().trim();
                 String questionText = questionTextField.getText().trim();
         
-                if (number.isEmpty() || responseType.isEmpty() || chapterId.isEmpty() || responseType.isEmpty() || questionComment.isEmpty() || questionText.isEmpty()) {
+                if (number.isEmpty() || responseType.isEmpty() || chapterId.isEmpty() || responseType.isEmpty() || questionText.isEmpty()) {
                     JOptionPane.showMessageDialog(this, "ID, Title, Number, and Survey ID cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
                     Question question = new Question();
