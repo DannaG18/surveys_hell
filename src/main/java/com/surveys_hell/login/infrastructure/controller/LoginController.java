@@ -88,15 +88,15 @@ public class LoginController extends JFrame implements ActionListener {
             LoginRolesUseCase loginRolesUseCase = new LoginRolesUseCase(loginService);
             boolean admin = loginRolesUseCase.roles(logged.get().getId());
 
-            if (admin) {
-                setVisible(false);
-                AdminForumController menu = new AdminForumController();
-                menu.setResizable(false);
-                menu.setLocationRelativeTo(null);
-                menu.setVisible(true);
-            } else {
-                System.out.println("no");
-            }
+            // if (admin) {
+            //     setVisible(false);
+            //     AdminForumController menu = new AdminForumController();
+            //     menu.setResizable(false);
+            //     menu.setLocationRelativeTo(null);
+            //     menu.setVisible(true);
+            // } else {
+            //     System.out.println("no");
+            // }
         }
     }
 
