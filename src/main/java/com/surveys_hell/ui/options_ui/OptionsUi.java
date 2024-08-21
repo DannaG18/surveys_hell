@@ -1,14 +1,28 @@
 package com.surveys_hell.ui.options_ui;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridLayout;
+import java.awt.RenderingHints;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import com.surveys_hell.survey.application.GetAllSurveyUseCase;
 import com.surveys_hell.survey.domain.service.SurveyService;
 import com.surveys_hell.survey.infrastructure.repository.SurveyRepository;
-import com.surveys_hell.users.domain.entity.Users;
-import java.util.List;
-import java.util.ArrayList;
 
 public class OptionsUi extends JFrame{
     private JPanel mainPanel; // Panel principal del menú
@@ -36,7 +50,7 @@ public class OptionsUi extends JFrame{
         mainPanel.add(menuPanel, "Menu");
 
         // Paneles para cada operación
-        JPanel addPanel = createOperationPanel("Search Surveys", "Search", createAddPanel());;
+        JPanel addPanel = createOperationPanel("Search Surveys", "Search", createAddPanel());
 
         // Añadir los paneles al CardLayout
         mainPanel.add(addPanel, "Search");
