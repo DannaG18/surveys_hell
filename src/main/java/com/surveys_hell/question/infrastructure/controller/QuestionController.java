@@ -231,7 +231,7 @@ public class QuestionController extends JFrame{
                 question.setResponseType(responseType);
                 question.setCreatedAt(createdAt);
                 question.setUpdatedAt(updatedAt);
-                question.setCommentQuestion(questionText);
+                question.setCommentQuestion(questionComment);
                 question.setQuestionText(questionText);
                 createQuestionUseCase.execute(question);
                 JOptionPane.showMessageDialog(this, "Question added successfully.");
@@ -340,7 +340,7 @@ public class QuestionController extends JFrame{
                     Question question = new Question();
                     question.setQuestionNumber(number);
                     question.setResponseType(responseType);
-                    question.setCommentQuestion(questionText);
+                    question.setCommentQuestion(questionComment);
                     question.setQuestionText(questionText);
                     updateQuestionUseCase.execute(question);
                     JOptionPane.showMessageDialog(this, "Question updated successfully.");
