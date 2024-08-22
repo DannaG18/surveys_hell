@@ -186,7 +186,7 @@ public class OptionsUi extends JFrame{
             String name = (String) nameComboBox.getSelectedItem();
             
             // Method for showing the survey
-
+            
             
         });
     
