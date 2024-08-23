@@ -1,42 +1,31 @@
 package com.surveys_hell.ui.options_ui;
 
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GridLayout;
-import java.awt.RenderingHints;
-import java.util.ArrayList;
+import javax.swing.*;
+import java.awt.*;
 import java.util.List;
+import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-
+import com.surveys_hell.login.infrastructure.controller.LoginController;
 import com.surveys_hell.survey.application.GetAllSurveyUseCase;
 import com.surveys_hell.survey.domain.service.SurveyService;
 import com.surveys_hell.survey.infrastructure.repository.SurveyRepository;
 
-public class OptionsUi extends JFrame{
-    private JPanel mainPanel; // Panel principal del menú
-    private CardLayout cardLayout; // Layout para cambiar entre paneles
-    SurveyService surveyService;
-    GetAllSurveyUseCase getAllSurveyUseCase;
+public class OptionsUi extends JFrame {
+    private JPanel mainPanel; 
+    private CardLayout cardLayout; 
+    private SurveyService surveyService;
+    private GetAllSurveyUseCase getAllSurveyUseCase;
+    private JComboBox<String> nameComboBox;
+    private DefaultComboBoxModel<String> comboBoxModel;
 
     public OptionsUi() {
         surveyService = new SurveyRepository();
         getAllSurveyUseCase = new GetAllSurveyUseCase(surveyService);
+
         // Configuración del JFrame
-        ImageIcon windowIcon = new ImageIcon("src/main/resources/img/Hospital.png"); // Cambia esto a la ruta de tu imagen
+        ImageIcon windowIcon = new ImageIcon("src/main/resources/img/Hospital.png");
         setIconImage(windowIcon.getImage());
-        setTitle("Users Management Menu");
+        setTitle("Select survey");
         setSize(400, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -45,12 +34,8 @@ public class OptionsUi extends JFrame{
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
 
-        // Panel principal con los botones del menú
-        JPanel menuPanel = createMenuPanel();
-        mainPanel.add(menuPanel, "Menu");
-
         // Paneles para cada operación
-        JPanel addPanel = createOperationPanel("Search Surveys", "Search", createAddPanel());
+        JPanel addPanel = createOperationPanel("Select Survey", "Select", createAddPanel());
 
         // Añadir los paneles al CardLayout
         mainPanel.add(addPanel, "Search");
@@ -64,18 +49,17 @@ public class OptionsUi extends JFrame{
         // Hacer visible la ventana
         setVisible(true);
     }
-        private JPanel createHeaderPanel(String title) {
+
+    private JPanel createHeaderPanel(String title) {
         JPanel headerPanel = new JPanel(new BorderLayout());
 
         JLabel titleLabel = new JLabel(title);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-        // Cargar una imagen pequeña
         ImageIcon icon = new ImageIcon("src/main/resources/img/Admi.png");
         JLabel imageLabel = new JLabel(icon);
 
-        // Añadir espacio debajo del encabezado
         headerPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 20, 10));
 
         headerPanel.add(titleLabel, BorderLayout.CENTER);
@@ -84,41 +68,9 @@ public class OptionsUi extends JFrame{
         return headerPanel;
     }
 
-    private JPanel createMenuPanel() {
-        JPanel panel = new JPanel(new BorderLayout());
-
-        // Crear encabezado solo para el menú
-        JPanel headerPanel = createHeaderPanel("Survey Options");
-        panel.add(headerPanel, BorderLayout.NORTH);
-
-        // Crear un panel para los botones con GridLayout
-        JPanel buttonPanel = new JPanel(new GridLayout(5, 1, 10, 10));
-
-        // Añadir márgenes alrededor de los botones
-        JPanel marginPanel = new JPanel(new BorderLayout());
-        marginPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Márgenes laterales
-
-        // Crear botones personalizados con esquinas redondeadas
-        JButton searchButton = createRoundedButton("Search Users");
-        JButton exitButton = createRoundedButton("Exit");
-
-        buttonPanel.add(searchButton);
-        buttonPanel.add(exitButton);
-
-        marginPanel.add(buttonPanel, BorderLayout.CENTER);
-        panel.add(marginPanel, BorderLayout.CENTER);
-
-        // Action Listeners para cada botón
-        searchButton.addActionListener(e -> cardLayout.show(mainPanel, "Search"));
-        exitButton.addActionListener(e -> System.exit(0));
-
-        return panel;
-    }
-
     private JPanel createOperationPanel(String title, String cardName, JPanel operationPanel) {
         JPanel panel = new JPanel(new BorderLayout());
 
-        // Crear encabezado solo para operaciones
         JPanel headerPanel = createHeaderPanel(title);
         panel.add(headerPanel, BorderLayout.NORTH);
 
@@ -162,11 +114,14 @@ public class OptionsUi extends JFrame{
     
         JPanel formPanel = new JPanel(new GridLayout(6, 2, 10, 10));
 
-        List<String> names = new ArrayList<>();
-        getAllSurveyUseCase.execute(names);
-        String[] namesArray = names.toArray(new String[0]);
-        JComboBox<String> nameComboBox = new JComboBox<>(namesArray);
+        // Crear DefaultComboBoxModel para el JComboBox
+        comboBoxModel = new DefaultComboBoxModel<>();
+        nameComboBox = new JComboBox<>(comboBoxModel);
         nameComboBox.setPreferredSize(new Dimension(100, 30));
+
+        // Llenar el ComboBox con las encuestas actuales
+        updateSurveyOptions();
+
         JButton submitButton = createRoundedButton("Submit");
         JButton backButton = createRoundedButton("Back");
 
@@ -174,27 +129,30 @@ public class OptionsUi extends JFrame{
         formPanel.add(submitButton);
         formPanel.add(backButton);
     
-        // Añadir márgenes alrededor del formulario
         JPanel marginPanel = new JPanel(new BorderLayout());
-        marginPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Márgenes laterales
+        marginPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
         marginPanel.add(formPanel, BorderLayout.CENTER);
     
         panel.add(marginPanel, BorderLayout.CENTER);
     
-        submitButton.addActionListener(e -> {
-            // Obtener el valor booleano del JComboBox
-            String name = (String) nameComboBox.getSelectedItem();
-            
-            // Method for showing the survey
-
-            
-        });
-    
-        backButton.addActionListener(e -> cardLayout.show(mainPanel, "Menu"));
+        backButton.addActionListener(e -> new LoginController());
     
         return panel;
     }
+
+    private void updateSurveyOptions() {
+        comboBoxModel.removeAllElements(); // Clear the existing model
+        comboBoxModel.addElement("Select an option");
+    
+        List<String> surveyNames = new ArrayList<>(); // Create the empty list
+        getAllSurveyUseCase.execute(surveyNames);// Pass the list to the method
+        for (String surveyName : surveyNames) {
+            comboBoxModel.addElement(surveyName); // Add each survey to the model
+        }
+    }
+    
     public static void main(String[] args) {
         new OptionsUi();
     }
 }
+

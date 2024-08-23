@@ -93,7 +93,7 @@ public class RolesController extends JFrame {
         panel.add(headerPanel, BorderLayout.NORTH);
 
         // Crear un panel para los botones con GridLayout
-        JPanel buttonPanel = new JPanel(new GridLayout(5, 1, 10, 10));
+        JPanel buttonPanel = new JPanel(new GridLayout(6, 1, 10, 10));
 
         // Añadir márgenes alrededor de los botones
         JPanel marginPanel = new JPanel(new BorderLayout());
@@ -170,7 +170,7 @@ public class RolesController extends JFrame {
     private JPanel createAddPanel() {
         JPanel panel = new JPanel(new BorderLayout());
 
-        JPanel formPanel = new JPanel(new GridLayout(5, 1, 10, 10));
+        JPanel formPanel = new JPanel(new GridLayout(6, 1, 10, 10));
 
         JLabel nameLabel = new JLabel("Enter Roles name:");
         JTextField nameField = new JTextField(10);
@@ -210,7 +210,7 @@ public class RolesController extends JFrame {
     private JPanel createSearchPanel() {
         JPanel panel = new JPanel(new BorderLayout());
     
-        JPanel formPanel = new JPanel(new GridLayout(5, 1, 10, 10));
+        JPanel formPanel = new JPanel(new GridLayout(6, 1, 10, 10));
     
         JLabel idLabel = new JLabel("Enter Roles ID:");
     
@@ -257,7 +257,7 @@ public class RolesController extends JFrame {
     private JPanel createUpdatePanel() {
         JPanel panel = new JPanel(new BorderLayout());
 
-        JPanel formPanel = new JPanel(new GridLayout(5, 1, 10, 10));
+        JPanel formPanel = new JPanel(new GridLayout(6, 1, 10, 10));
 
         JLabel idLabel = new JLabel("Enter Roles ID:");
         JTextField idField = new JTextField(20);
@@ -311,7 +311,7 @@ public class RolesController extends JFrame {
     private JPanel createDeletePanel() {
         JPanel panel = new JPanel(new BorderLayout());
 
-        JPanel formPanel = new JPanel(new GridLayout(5, 1, 10, 10));
+        JPanel formPanel = new JPanel(new GridLayout(6, 1, 10, 10));
 
         JLabel idLabel = new JLabel("Enter Roles ID:");
         JTextField idField = new JTextField(20);

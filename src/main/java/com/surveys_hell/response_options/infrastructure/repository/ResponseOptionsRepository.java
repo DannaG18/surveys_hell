@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
@@ -64,7 +66,17 @@ public class ResponseOptionsRepository implements ResponseOptionsService{
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 if(rs.next()) {
-                    ResponseOptions responseOptions = new ResponseOptions(rs.getInt("id"), rs.getInt("option_value"), rs.getInt("category_catalog_id"), rs.getDate("created_at"), rs.getInt("parent_response_id"), rs.getInt("question_id"), rs.getDate("updated_at"), rs.getString("type_component_html"), rs.getString("comment_reponse"), rs.getString("option_text"));
+                    ResponseOptions responseOptions = new ResponseOptions(
+                        rs.getInt("id"),
+                        rs.getInt("option_value"),
+                        rs.getInt("category_catalog_id"),
+                        rs.getDate("created_at"),
+                        rs.getInt("parent_response_id"),
+                        rs.getInt("question_id"),
+                        rs.getDate("updated_at"),
+                        rs.getString("type_component_html"),
+                        rs.getString("comment_reponse"),
+                        rs.getString("option_text"));
                     return Optional.of(responseOptions);
                 }
             }
@@ -92,6 +104,35 @@ public class ResponseOptionsRepository implements ResponseOptionsService{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<ResponseOptions> findResponseByQuestion(int questionId) {
+        List<ResponseOptions> responseOptionsList = new ArrayList<>();
+        String sql = "SELECT * FROM response_options WHERE question_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, questionId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    ResponseOptions responseOptions = new ResponseOptions(
+                            rs.getInt("id"),
+                            rs.getInt("option_value"),
+                            rs.getInt("category_catalog_id"),
+                            rs.getDate("created_at"),
+                            rs.getInt("parent_response_id"),
+                            rs.getInt("question_id"),
+                            rs.getDate("updated_at"),
+                            rs.getString("type_component_html"),
+                            rs.getString("comment_reponse"),
+                            rs.getString("option_text")
+                    );
+                    responseOptionsList.add(responseOptions);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return responseOptionsList;
     }
 
 }
