@@ -8,6 +8,7 @@ import com.surveys_hell.survey.domain.entity.Survey;
 public interface SurveyService {
     void createSurvey (Survey survey);
     Optional<Survey> findSurvey (int id);
+    Optional<Survey> findSurveyByName(String name);
     void updateSurvey (Survey survey);
     void deleteSurvey (int id);
     void getAllSurvey(List<String> names);

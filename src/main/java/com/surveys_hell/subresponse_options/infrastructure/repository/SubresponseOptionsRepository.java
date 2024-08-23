@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Properties;
 
@@ -85,5 +87,24 @@ public class SubresponseOptionsRepository implements SubresponseOptionsService{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<SubresponseOptions> findSubResponseByResponse(int responseId) {
+        List<SubresponseOptions> subResponses = new ArrayList<>();
+        String sql = "select * from chapter where survey_id = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, responseId);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                SubresponseOptions subresponseOptions = new SubresponseOptions(rs.getInt("id"), rs.getInt("subresponse_number"), rs.getDate("created_at"), rs.getInt("responseoptions_id"), rs.getDate("updated_at"), rs.getString("component_html"), rs.getString("subresponse_text"));
+
+                subResponses.add(subresponseOptions);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return subResponses;
     }
 }
