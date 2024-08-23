@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
@@ -85,6 +87,25 @@ public class ChapterRepository implements ChapterService{
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+    }
+
+    @Override
+    public List<Chapter> findChapterBySurvey(int surveyId) {
+        List<Chapter> chapters = new ArrayList<>();
+        String sql = "select * from chapter where survey_id = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, surveyId);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                Chapter chapter = new Chapter(rs.getInt("id"), rs.getDate("created_at"), rs.getDate("updated_at"), rs.getInt("survey_id"), rs.getString("chapter_number"), rs.getString("chapter_title"));
+
+                chapters.add(chapter);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return chapters;
     }
 
     
