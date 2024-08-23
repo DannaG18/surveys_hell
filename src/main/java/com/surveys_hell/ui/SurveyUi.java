@@ -17,14 +17,16 @@ import com.surveys_hell.chapter.domain.entity.Chapter;
 import com.surveys_hell.question.domain.entity.Question;
 import com.surveys_hell.survey.application.FindSurveyByNameUseCase;
 import com.surveys_hell.chapter.application.FindChapterBySurveyUseCase;
+import com.surveys_hell.response_options.application.FindResponseOptionByQuestionUseCase;
+import com.surveys_hell.response_options.domain.entity.ResponseOptions;
 import com.surveys_hell.survey.domain.entity.Survey;
 
 public class SurveyUi extends JFrame{
     SurveyService surveyService;
     FindSurveyByNameUseCase findSurveyByNameUseCase;
-    FindChapterBySurvey findChapterBySurvey;
-    FindQuestionByChapter FindQuestionByChapter;
-    FindResponseByQuestion findResponseByQuestion;
+    FindChapterBySurveyUseCase findChapterBySurveyUseCase;
+    FindQuestionByChapterUseCase FindQuestionByChapterUseCase;
+    FindResponseOptionByQuestionUseCase findResponseByQuestionUseCase;
     private JPanel contentPanel;
     private JScrollPane scrollPane;
 
@@ -49,7 +51,7 @@ public class SurveyUi extends JFrame{
     }
 
     private void populateSurveyData(Survey survey) {
-        for (Chapter chapter : survey.getChapters()) {
+        for (Chapter chapter : findChapterBySurveyUseCase.execute(survey.getId())) {
             JPanel chapterPanel = new JPanel();
             chapterPanel.setLayout(new BoxLayout(chapterPanel, BoxLayout.Y_AXIS));
             chapterPanel.setBorder(BorderFactory.createTitledBorder(chapter.getChapterTitle()));
@@ -59,7 +61,7 @@ public class SurveyUi extends JFrame{
                 questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.Y_AXIS));
                 questionPanel.add(new JLabel(question.getQuestionText()));
 
-                for (ResponseOption option : question.getResponseOptions()) {
+                for (ResponseOptions option : findResponseByQuestionUseCase.execute(question.getId())) {
                     questionPanel.add(new JCheckBox(option.getOptionText()));
                 }
 
