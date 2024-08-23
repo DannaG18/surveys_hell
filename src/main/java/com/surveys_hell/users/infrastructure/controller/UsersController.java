@@ -172,7 +172,7 @@ public class UsersController extends JFrame{
     private JPanel createAddPanel() {
         JPanel panel = new JPanel(new BorderLayout());
     
-        JPanel formPanel = new JPanel(new GridLayout(6, 2, 10, 10));
+        JPanel formPanel = new JPanel(new GridLayout(5, 2, 10, 10));
     
         JLabel enableLabel = new JLabel("Enter Enable User:");
         JLabel usernameLabel = new JLabel("Enter Username:");
@@ -237,7 +237,7 @@ public class UsersController extends JFrame{
     private JPanel createSearchPanel() {
         JPanel panel = new JPanel(new BorderLayout());
     
-        JPanel formPanel = new JPanel(new GridLayout(6, 1, 10, 10));
+        JPanel formPanel = new JPanel(new GridLayout(5, 1, 10, 10));
     
         JLabel idLabel = new JLabel("Enter User ID:");
     
@@ -284,7 +284,7 @@ public class UsersController extends JFrame{
     private JPanel createUpdatePanel() {
         JPanel panel = new JPanel(new BorderLayout());
     
-        JPanel formPanel = new JPanel(new GridLayout(6, 1, 10, 10));
+        JPanel formPanel = new JPanel(new GridLayout(5, 1, 10, 10));
     
         JLabel enableLabel = new JLabel("Enter Enable User:");
         JLabel usernameLabel = new JLabel("Enter Username:");
@@ -347,7 +347,7 @@ public class UsersController extends JFrame{
     private JPanel createDeletePanel() {
         JPanel panel = new JPanel(new BorderLayout());
 
-        JPanel formPanel = new JPanel(new GridLayout(6, 1, 10, 10));
+        JPanel formPanel = new JPanel(new GridLayout(5, 1, 10, 10));
 
         JLabel idLabel = new JLabel("Enter Users ID:");
         JTextField idField = new JTextField(20);

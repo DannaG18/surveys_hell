@@ -63,7 +63,7 @@ public class ChapterRepository implements ChapterService{
 
     @Override
     public void updateChapter(Chapter chapter) {
-        String sql = "UPDATE chapter SET created_at = ?, updated_at = NOW(), survey_id = ?, chapter_number = ?, chapter_title = ? WHERE id = ?";
+        String sql = "UPDATE chapter SET updated_at = NOW(), survey_id = ?, chapter_number = ?, chapter_title = ? WHERE id = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setDate(1, chapter.getCreatedAt());

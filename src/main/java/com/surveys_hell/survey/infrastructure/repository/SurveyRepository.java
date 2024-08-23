@@ -102,5 +102,21 @@ public class SurveyRepository implements SurveyService{
         }
     }
 
-
+    @Override
+    public Optional<Survey> findSurveyByName(String name) {
+        String sql = "SELECT * FROM surveys WHERE name = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, name);
+            try (ResultSet rs = ps.executeQuery()) {
+                if(rs.next()) {
+                    Survey survey = new Survey(rs.getInt("id"), rs.getDate("created_at"), rs.getDate("updated_at"), rs.getString("description"), rs.getString("name"));
+                    return Optional.of(survey);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
+    }
 }

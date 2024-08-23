@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
@@ -64,7 +66,17 @@ public class ResponseOptionsRepository implements ResponseOptionsService{
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 if(rs.next()) {
-                    ResponseOptions responseOptions = new ResponseOptions(rs.getInt("id"), rs.getInt("option_value"), rs.getInt("category_catalog_id"), rs.getDate("created_at"), rs.getInt("parent_response_id"), rs.getInt("question_id"), rs.getDate("updated_at"), rs.getString("type_component_html"), rs.getString("comment_reponse"), rs.getString("option_text"));
+                    ResponseOptions responseOptions = new ResponseOptions(
+                        rs.getInt("id"),
+                        rs.getInt("option_value"),
+                        rs.getInt("category_catalog_id"),
+                        rs.getDate("created_at"),
+                        rs.getInt("parent_response_id"),
+                        rs.getInt("question_id"),
+                        rs.getDate("updated_at"),
+                        rs.getString("type_component_html"),
+                        rs.getString("comment_reponse"),
+                        rs.getString("option_text"));
                     return Optional.of(responseOptions);
                 }
             }
@@ -76,22 +88,50 @@ public class ResponseOptionsRepository implements ResponseOptionsService{
 
     @Override
     public void updateResponseOptions(ResponseOptions responseOptions) {
-        String sql = "UPDATE response_options SET option_value = ?, category_catalog_id = ?, created_at = ?, parent_response_id = ?, question_id = ?, updated_at = NOW(), type_component_html = ?, comment_reponse = ?, option_text = ? WHERE id = ?";
+        String sql = "UPDATE response_options SET option_value = ?, category_catalog_id = ?, parent_response_id = ?, question_id = ?, updated_at = NOW(), type_component_html = ?, comment_reponse = ?, option_text = ? WHERE id = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, responseOptions.getOptionValue());
             ps.setInt(2, responseOptions.getCategoryCatalogId());
-            ps.setDate(3, responseOptions.getCreatedAt());
-            ps.setInt(4, responseOptions.getParentResponse());
-            ps.setInt(5, responseOptions.getQuestionId());
-            ps.setString(6, responseOptions.getTypeComponentHtml());
-            ps.setString(7, responseOptions.getCommentReponse());
-            ps.setString(8, responseOptions.getOptionText());
-            ps.setInt(9, responseOptions.getId());
+            ps.setInt(3, responseOptions.getParentResponse());
+            ps.setInt(4, responseOptions.getQuestionId());
+            ps.setString(5, responseOptions.getTypeComponentHtml());
+            ps.setString(6, responseOptions.getCommentReponse());
+            ps.setString(7, responseOptions.getOptionText());
+            ps.setInt(8, responseOptions.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<ResponseOptions> findResponseByQuestion(int questionId) {
+        List<ResponseOptions> responseOptionsList = new ArrayList<>();
+        String sql = "SELECT * FROM response_options WHERE question_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, questionId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    ResponseOptions responseOptions = new ResponseOptions(
+                            rs.getInt("id"),
+                            rs.getInt("option_value"),
+                            rs.getInt("category_catalog_id"),
+                            rs.getDate("created_at"),
+                            rs.getInt("parent_response_id"),
+                            rs.getInt("question_id"),
+                            rs.getDate("updated_at"),
+                            rs.getString("type_component_html"),
+                            rs.getString("comment_reponse"),
+                            rs.getString("option_text")
+                    );
+                    responseOptionsList.add(responseOptions);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return responseOptionsList;
     }
 
 }

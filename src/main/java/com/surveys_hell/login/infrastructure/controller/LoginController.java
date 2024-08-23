@@ -11,7 +11,8 @@ import com.surveys_hell.login.domain.entity.LoginUsers;
 import com.surveys_hell.login.domain.service.LoginService;
 import com.surveys_hell.login.infrastructure.repository.LoginRepository;
 import com.surveys_hell.login.application.LoginRolesUseCase;
-import com.surveys_hell.ui.options_ui.OptionsUi;
+import com.surveys_hell.ui.CrudUi;
+import com.surveys_hell.ui.OptionsUi;
 
 public class LoginController extends JFrame implements ActionListener {
 
@@ -92,8 +93,13 @@ public class LoginController extends JFrame implements ActionListener {
             LoginRolesUseCase loginRolesUseCase = new LoginRolesUseCase(loginService);
             boolean admin = loginRolesUseCase.roles(logged.get().getId());
 
+
             if (admin) {
-                System.out.println("Todavía no hay crud options");
+                setVisible(false);
+                CrudUi menu = new CrudUi();
+                menu.setResizable(false);
+                menu.setLocationRelativeTo(null);
+                menu.setVisible(true);
             } else {
                 setVisible(false);
                 OptionsUi menu = new OptionsUi();

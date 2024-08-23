@@ -78,7 +78,7 @@ public class SubresponseOptionsRepository implements SubresponseOptionsService{
 
     @Override
     public void updateSubresponseOptions(SubresponseOptions subresponseOptions) {
-        String sql = "UPDATE subresponse_options SET subresponse_number = ?, created_at = ?, response_options_id = ?, updated_at = NOW(), component_html = ?,  subresponse_text = ? WHERE id = ?";
+        String sql = "UPDATE subresponse_options SET subresponse_number = ?, response_options_id = ?, updated_at = NOW(), component_html = ?,  subresponse_text = ? WHERE id = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, subresponseOptions.getsubresponseNumber());

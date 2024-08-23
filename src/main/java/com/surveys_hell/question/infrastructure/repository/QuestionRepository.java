@@ -65,7 +65,7 @@ public class QuestionRepository implements QuestionService{
 
     @Override
     public void updateQuestion(Question question) {
-        String sql = "UPDATE questions SET created_at = ?, updated_at = NOW(), chapter_id = ?, question_number = ?, response_type= ?, commment_question = ?, question_text = ? WHERE id = ?";
+        String sql = "UPDATE questions SET updated_at = NOW(), chapter_id = ?, question_number = ?, response_type= ?, commment_question = ?, question_text = ? WHERE id = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setDate(1, question.getCreatedAt());
