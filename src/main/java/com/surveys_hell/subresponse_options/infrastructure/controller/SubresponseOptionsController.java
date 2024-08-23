@@ -32,7 +32,7 @@ public class SubresponseOptionsController extends JFrame {
         ImageIcon windowIcon = new ImageIcon("src/main/resources/img/Hospital.png");
         setIconImage(windowIcon.getImage());
         setTitle("Subresponse Options Management Menu");
-        setSize(400, 500);
+        setSize(500, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
@@ -161,13 +161,17 @@ public class SubresponseOptionsController extends JFrame {
 
         JLabel subresponseNumberLabel = new JLabel("Enter Subresponse Number:");
         JLabel responseOptionsIdLabel = new JLabel("Enter Response Options ID:");
-        JLabel componentHtmlLabel = new JLabel("Enter Component HTML:");
         JLabel subresponseTextLabel = new JLabel("Enter Subresponse Text:");
 
         JTextField subresponseNumberField = new JTextField(10);
+        subresponseNumberField.setHorizontalAlignment(SwingConstants.CENTER);
+
         JTextField responseOptionsIdField = new JTextField(10);
-        JTextField componentHtmlField = new JTextField(10);
+        responseOptionsIdField.setHorizontalAlignment(SwingConstants.CENTER);
+
         JTextField subresponseTextField = new JTextField(10);
+        subresponseTextField.setHorizontalAlignment(SwingConstants.CENTER);
+
 
         JButton submitButton = createRoundedButton("Submit");
         JButton backButton = createRoundedButton("Back");
@@ -176,8 +180,6 @@ public class SubresponseOptionsController extends JFrame {
         formPanel.add(subresponseNumberField);
         formPanel.add(responseOptionsIdLabel);
         formPanel.add(responseOptionsIdField);
-        formPanel.add(componentHtmlLabel);
-        formPanel.add(componentHtmlField);
         formPanel.add(subresponseTextLabel);
         formPanel.add(subresponseTextField);
         formPanel.add(submitButton);
@@ -192,33 +194,32 @@ public class SubresponseOptionsController extends JFrame {
         submitButton.addActionListener(e -> {
             String subresponseNumber = subresponseNumberField.getText().trim();
             String responseOptionsId = responseOptionsIdField.getText().trim();
-            String componentHtml = componentHtmlField.getText().trim();
             String subresponseText = subresponseTextField.getText().trim();
             Date createdAt = new Date(System.currentTimeMillis());
             Date updatedAt = new Date(System.currentTimeMillis());
 
-            if (subresponseNumber.isEmpty() || responseOptionsId.isEmpty() || componentHtml.isEmpty() || subresponseText.isEmpty()) {
+            if (subresponseNumber.isEmpty() || responseOptionsId.isEmpty() || subresponseText.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "All fields must be filled.", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
                 SubresponseOptions subresponseOptions = new SubresponseOptions();
                 try {
                     subresponseOptions.setsubresponseNumber(Integer.parseInt(subresponseNumber));
                     subresponseOptions.setResponseOptionsId(Integer.parseInt(responseOptionsId));
+                    subresponseOptions.setSubresponseText(subresponseText);
+                    subresponseOptions.setCreateAt(createdAt);
+                    subresponseOptions.setUpdateAt(updatedAt);
+                    createSubresponseOptionsUseCase.execute(subresponseOptions);
+                    JOptionPane.showMessageDialog(this, "Subresponse Option added successfully.");
+                    subresponseNumberField.setText("");
+                    responseOptionsIdField.setText("");
+                    subresponseTextField.setText("");
+                    cardLayout.show(mainPanel, "Menu");
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(this, "Invalid input. Please enter valid integers.", "Error", JOptionPane.ERROR_MESSAGE);
+                    subresponseNumberField.setText("");
+                    responseOptionsIdField.setText("");
                     return;
                 }
-
-                subresponseOptions.setComponentHtml(componentHtml);
-                subresponseOptions.setSubresponseText(subresponseText);
-                subresponseOptions.setCreateAt(createdAt);
-                subresponseOptions.setUpdateAt(updatedAt);
-                createSubresponseOptionsUseCase.execute(subresponseOptions);
-                JOptionPane.showMessageDialog(this, "Subresponse Option added successfully.");
-                subresponseNumberField.setText("");
-                responseOptionsIdField.setText("");
-                componentHtmlField.setText("");
-                subresponseTextField.setText("");
             }
         });
 
@@ -230,10 +231,14 @@ public class SubresponseOptionsController extends JFrame {
     private JPanel createSearchPanel() {
         JPanel panel = new JPanel(new BorderLayout());
 
-        JPanel formPanel = new JPanel(new GridLayout(3, 1, 10, 10));
+        JPanel formPanel = new JPanel(new GridLayout(5, 1, 10, 10));
 
         JLabel idLabel = new JLabel("Enter Subresponse Option ID:");
+        idLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
         JTextField idField = new JTextField(20);
+        idField.setHorizontalAlignment(SwingConstants.CENTER);
+
         JButton submitButton = createRoundedButton("Search");
         JButton backButton = createRoundedButton("Back");
 
@@ -256,8 +261,10 @@ public class SubresponseOptionsController extends JFrame {
                         () -> JOptionPane.showMessageDialog(this, "Subresponse Option not found.", "Error", JOptionPane.ERROR_MESSAGE)
                 );
                 idField.setText("");
+                cardLayout.show(mainPanel, "Menu");
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "Invalid input. Please enter a valid integer.", "Error", JOptionPane.ERROR_MESSAGE);
+                idField.setText("");
             }
         });
 
@@ -274,14 +281,21 @@ public class SubresponseOptionsController extends JFrame {
         JLabel idLabel = new JLabel("Enter Subresponse Option ID:");
         JLabel subresponseNumberLabel = new JLabel("Enter Subresponse Number:");
         JLabel responseOptionsIdLabel = new JLabel("Enter Response Options ID:");
-        JLabel componentHtmlLabel = new JLabel("Enter Component HTML:");
         JLabel subresponseTextLabel = new JLabel("Enter Subresponse Text:");
 
         JTextField idField = new JTextField(10);
+        idField.setHorizontalAlignment(SwingConstants.CENTER);
+
         JTextField subresponseNumberField = new JTextField(10);
+        subresponseNumberField.setHorizontalAlignment(SwingConstants.CENTER);
+
         JTextField responseOptionsIdField = new JTextField(10);
-        JTextField componentHtmlField = new JTextField(10);
+        responseOptionsIdField.setHorizontalAlignment(SwingConstants.CENTER);
+
+
         JTextField subresponseTextField = new JTextField(10);
+        subresponseTextField.setHorizontalAlignment(SwingConstants.CENTER);
+
         JButton submitButton = createRoundedButton("Submit");
         JButton backButton = createRoundedButton("Back");
 
@@ -291,8 +305,6 @@ public class SubresponseOptionsController extends JFrame {
         formPanel.add(subresponseNumberField);
         formPanel.add(responseOptionsIdLabel);
         formPanel.add(responseOptionsIdField);
-        formPanel.add(componentHtmlLabel);
-        formPanel.add(componentHtmlField);
         formPanel.add(subresponseTextLabel);
         formPanel.add(subresponseTextField);
         formPanel.add(submitButton);
@@ -309,11 +321,10 @@ public class SubresponseOptionsController extends JFrame {
                 int id = Integer.parseInt(idField.getText().trim());
                 String subresponseNumber = subresponseNumberField.getText().trim();
                 String responseOptionsId = responseOptionsIdField.getText().trim();
-                String componentHtml = componentHtmlField.getText().trim();
                 String subresponseText = subresponseTextField.getText().trim();
                 Date updatedAt = new Date(System.currentTimeMillis());
 
-                if (subresponseNumber.isEmpty() || responseOptionsId.isEmpty() || componentHtml.isEmpty() || subresponseText.isEmpty()) {
+                if (subresponseNumber.isEmpty() || responseOptionsId.isEmpty() || subresponseText.isEmpty()) {
                     JOptionPane.showMessageDialog(this, "All fields must be filled.", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
                     SubresponseOptions subresponseOptions = new SubresponseOptions();
@@ -321,22 +332,22 @@ public class SubresponseOptionsController extends JFrame {
                     try {
                         subresponseOptions.setsubresponseNumber(Integer.parseInt(subresponseNumber));
                         subresponseOptions.setResponseOptionsId(Integer.parseInt(responseOptionsId));
+                        subresponseOptions.setSubresponseText(subresponseText);
+                        subresponseOptions.setUpdateAt(updatedAt);
+                        updateSubresponseOptionsUseCase.execute(subresponseOptions);
+                        JOptionPane.showMessageDialog(this, "Subresponse Option updated successfully.");
+
+                        idField.setText("");
+                        subresponseNumberField.setText("");
+                        responseOptionsIdField.setText("");
+                        subresponseTextField.setText("");
+                        cardLayout.show(mainPanel, "Menu");
                     } catch (NumberFormatException ex) {
                         JOptionPane.showMessageDialog(this, "Invalid input. Please enter valid integers.", "Error", JOptionPane.ERROR_MESSAGE);
+                        idField.setText("");
+                        subresponseNumberField.setText("");
                         return;
                     }
-
-                    subresponseOptions.setComponentHtml(componentHtml);
-                    subresponseOptions.setSubresponseText(subresponseText);
-                    subresponseOptions.setUpdateAt(updatedAt);
-                    updateSubresponseOptionsUseCase.execute(subresponseOptions);
-                    JOptionPane.showMessageDialog(this, "Subresponse Option updated successfully.");
-
-                    idField.setText("");
-                    subresponseNumberField.setText("");
-                    responseOptionsIdField.setText("");
-                    componentHtmlField.setText("");
-                    subresponseTextField.setText("");
                 }
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "Invalid input. Please enter valid integers.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -351,10 +362,14 @@ public class SubresponseOptionsController extends JFrame {
     private JPanel createDeletePanel() {
         JPanel panel = new JPanel(new BorderLayout());
 
-        JPanel formPanel = new JPanel(new GridLayout(3, 1, 10, 10));
+        JPanel formPanel = new JPanel(new GridLayout(5, 1, 10, 10));
 
         JLabel idLabel = new JLabel("Enter Subresponse Option ID:");
+        idLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
         JTextField idField = new JTextField(20);
+        idField.setHorizontalAlignment(SwingConstants.CENTER);
+
         JButton submitButton = createRoundedButton("Delete");
         JButton backButton = createRoundedButton("Back");
 
@@ -378,8 +393,10 @@ public class SubresponseOptionsController extends JFrame {
                     JOptionPane.showMessageDialog(this, "Subresponse Option deleted successfully.");
                     idField.setText("");
                 }
+                cardLayout.show(mainPanel, "Menu");
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "Invalid input. Please enter a valid integer.", "Error", JOptionPane.ERROR_MESSAGE);
+                idField.setText("");
             }
         });
 

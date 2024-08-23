@@ -29,15 +29,12 @@ public class SubresponseOptionsRepository implements SubresponseOptionsService{
 
     @Override
     public void createSubresponseOptions(SubresponseOptions subresponseOptions) {
-        String sql = "INSERT INTO subresponse_options (subresponse_number, created_at, response_options_id, updated_at, component_html,  subresponse_text) VALUES (?, NOW(), ?, NOW(), ?, ?)";
+        String sql = "INSERT INTO subresponse_options (subresponse_number, created_at, response_options_id, updated_at, component_html,  subresponse_text) VALUES (?, NOW(), ?, NOW(), 'radio', ?)";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, subresponseOptions.getsubresponseNumber());
-            ps.setDate(2, subresponseOptions.getCreateAt());
-            ps.setInt(3, subresponseOptions.getResponseOptionsId());
-            ps.setDate(4, subresponseOptions.getUpdateAt());
-            ps.setString(5, subresponseOptions.getComponentHtml());
-            ps.setString(6, subresponseOptions.getSubresponseText());
+            ps.setInt(2, subresponseOptions.getResponseOptionsId());
+            ps.setString(3, subresponseOptions.getSubresponseText());
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -76,15 +73,14 @@ public class SubresponseOptionsRepository implements SubresponseOptionsService{
 
     @Override
     public void updateSubresponseOptions(SubresponseOptions subresponseOptions) {
-        String sql = "UPDATE subresponse_options SET subresponse_number = ?, response_options_id = ?, updated_at = NOW(), component_html = ?,  subresponse_text = ? WHERE id = ?";
+        String sql = "UPDATE subresponse_options SET subresponse_number = ?, response_options_id = ?, updated_at = NOW(), subresponse_text = ? WHERE id = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, subresponseOptions.getsubresponseNumber());
             ps.setDate(2, subresponseOptions.getCreateAt());
             ps.setInt(3, subresponseOptions.getResponseOptionsId());
-            ps.setString(4, subresponseOptions.getComponentHtml());
-            ps.setString(5, subresponseOptions.getSubresponseText());
-            ps.setInt(6, subresponseOptions.getId());
+            ps.setString(4, subresponseOptions.getSubresponseText());
+            ps.setInt(5, subresponseOptions.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

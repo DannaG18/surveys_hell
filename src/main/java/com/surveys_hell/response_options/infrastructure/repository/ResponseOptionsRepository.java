@@ -31,7 +31,7 @@ public class ResponseOptionsRepository implements ResponseOptionsService{
 
     @Override
     public void createResponseOptions(ResponseOptions responseOptions) {
-        String sql = "INSERT INTO response_options (option_value, category_catalog_id, created_at, parent_response_id, question_id, updated_at, type_component_html, comment_reponse, option_text) VALUES (?, ?, NOW(), ?, ?, NOW(), , ?, ?)";
+        String sql = "INSERT INTO response_options (option_value, category_catalog_id, created_at, parent_response_id, question_id, updated_at, type_component_html, comment_reponse, option_text) VALUES (?, ?, NOW(), ?, ?, NOW(), 'radio', ?, ?)";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, responseOptions.getOptionValue());

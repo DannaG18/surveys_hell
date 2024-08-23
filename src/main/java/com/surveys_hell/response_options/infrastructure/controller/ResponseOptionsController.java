@@ -163,7 +163,6 @@ public class ResponseOptionsController extends JFrame {
         JLabel categoryCatalogIdLabel = new JLabel("Enter Category Catalog ID:");
         JLabel parentResponseLabel = new JLabel("Enter Parent Response:");
         JLabel questionIdLabel = new JLabel("Enter Question ID:");
-        JLabel typeComponentHtmlLabel = new JLabel("Enter HTML Component Type:");
         JLabel commentResponseLabel = new JLabel("Enter Comment Response:");
         JLabel optionTextLabel = new JLabel("Enter Option Text:");
 
@@ -175,8 +174,6 @@ public class ResponseOptionsController extends JFrame {
         parentResponseField.setHorizontalAlignment(SwingConstants.CENTER);
         JTextField questionIdField = new JTextField(10);
         questionIdField.setHorizontalAlignment(SwingConstants.CENTER);
-        JTextField typeComponentHtmlField = new JTextField(10);
-        typeComponentHtmlField.setHorizontalAlignment(SwingConstants.CENTER);
         JTextField commentResponseField = new JTextField(10);
         commentResponseField.setHorizontalAlignment(SwingConstants.CENTER);
         JTextField optionTextField = new JTextField(10);
@@ -193,8 +190,6 @@ public class ResponseOptionsController extends JFrame {
         formPanel.add(parentResponseField);
         formPanel.add(questionIdLabel);
         formPanel.add(questionIdField);
-        formPanel.add(typeComponentHtmlLabel);
-        formPanel.add(typeComponentHtmlField);
         formPanel.add(commentResponseLabel);
         formPanel.add(commentResponseField);
         formPanel.add(optionTextLabel);
@@ -213,13 +208,12 @@ public class ResponseOptionsController extends JFrame {
             String categoryCatalogId = categoryCatalogIdField.getText().trim();
             String parentResponse = parentResponseField.getText().trim();
             String questionId = questionIdField.getText().trim();
-            String typeComponentHtml = typeComponentHtmlField.getText().trim();
             String commentResponse = commentResponseField.getText().trim();
             String optionText = optionTextField.getText().trim();
             Date createdAt = new Date(System.currentTimeMillis());
             Date updatedAt = new Date(System.currentTimeMillis());
 
-            if (optionValue.isEmpty() || categoryCatalogId.isEmpty() || parentResponse.isEmpty() || questionId.isEmpty() || typeComponentHtml.isEmpty() || commentResponse.isEmpty() || optionText.isEmpty()) {
+            if (optionValue.isEmpty() || categoryCatalogId.isEmpty() || parentResponse.isEmpty() || questionId.isEmpty() || commentResponse.isEmpty() || optionText.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "All fields must be filled.", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
                 ResponseOptions responseOptions = new ResponseOptions();
@@ -233,7 +227,6 @@ public class ResponseOptionsController extends JFrame {
                     return;
                 }
                 
-                responseOptions.setTypeComponentHtml(typeComponentHtml);
                 responseOptions.setCommentReponse(commentResponse);
                 responseOptions.setOptionText(optionText);
                 responseOptions.setCreatedAt(createdAt);
@@ -245,7 +238,6 @@ public class ResponseOptionsController extends JFrame {
                 categoryCatalogIdField.setText("");
                 parentResponseField.setText("");
                 questionIdField.setText("");
-                typeComponentHtmlField.setText("");
                 commentResponseField.setText("");
                 optionTextField.setText("");
             }
@@ -307,7 +299,6 @@ public class ResponseOptionsController extends JFrame {
         JLabel categoryCatalogIdLabel = new JLabel("Enter Category Catalog ID:");
         JLabel parentResponseLabel = new JLabel("Enter Parent Response:");
         JLabel questionIdLabel = new JLabel("Enter Question ID:");
-        JLabel typeComponentHtmlLabel = new JLabel("Enter HTML Component Type:");
         JLabel commentResponseLabel = new JLabel("Enter Comment Response:");
         JLabel optionTextLabel = new JLabel("Enter Option Text:");
 
@@ -319,8 +310,6 @@ public class ResponseOptionsController extends JFrame {
         parentResponseField.setHorizontalAlignment(SwingConstants.CENTER);
         JTextField questionIdField = new JTextField(10);
         questionIdField.setHorizontalAlignment(SwingConstants.CENTER);
-        JTextField typeComponentHtmlField = new JTextField(10);
-        typeComponentHtmlField.setHorizontalAlignment(SwingConstants.CENTER);
         JTextField commentResponseField = new JTextField(10);
         commentResponseField.setHorizontalAlignment(SwingConstants.CENTER);
         JTextField optionTextField = new JTextField(10);
@@ -337,8 +326,6 @@ public class ResponseOptionsController extends JFrame {
         formPanel.add(parentResponseField);
         formPanel.add(questionIdLabel);
         formPanel.add(questionIdField);
-        formPanel.add(typeComponentHtmlLabel);
-        formPanel.add(typeComponentHtmlField);
         formPanel.add(commentResponseLabel);
         formPanel.add(commentResponseField);
         formPanel.add(optionTextLabel);
@@ -358,11 +345,10 @@ public class ResponseOptionsController extends JFrame {
                 String categoryCatalogId = categoryCatalogIdField.getText().trim();
                 String parentResponse = parentResponseField.getText().trim();
                 String questionId = questionIdField.getText().trim();
-                String typeComponentHtml = typeComponentHtmlField.getText().trim();
                 String commentResponse = commentResponseField.getText().trim();
                 String optionText = optionTextField.getText().trim();
 
-                if (optionValue.isEmpty() || categoryCatalogId.isEmpty() || parentResponse.isEmpty() || questionId.isEmpty() || typeComponentHtml.isEmpty() || commentResponse.isEmpty() || optionText.isEmpty()) {
+                if (optionValue.isEmpty() || categoryCatalogId.isEmpty() || parentResponse.isEmpty() || questionId.isEmpty() || commentResponse.isEmpty() || optionText.isEmpty()) {
                     JOptionPane.showMessageDialog(this, "All fields must be filled.", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
                     ResponseOptions responseOptions = new ResponseOptions();
@@ -376,7 +362,6 @@ public class ResponseOptionsController extends JFrame {
                         return;
                     }
 
-                    responseOptions.setTypeComponentHtml(typeComponentHtml);
                     responseOptions.setCommentReponse(commentResponse);
                     responseOptions.setOptionText(optionText);
                     responseOptions.setUpdatedAt(new Date(System.currentTimeMillis()));
@@ -388,7 +373,6 @@ public class ResponseOptionsController extends JFrame {
                     categoryCatalogIdField.setText("");
                     parentResponseField.setText("");
                     questionIdField.setText("");
-                    typeComponentHtmlField.setText("");
                     commentResponseField.setText("");
                     optionTextField.setText("");
                 }
