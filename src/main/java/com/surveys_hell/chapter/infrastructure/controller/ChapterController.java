@@ -207,26 +207,26 @@ public class ChapterController extends JFrame{
             Date createdAt = new Date(System.currentTimeMillis());
             Date updatedAt = new Date(System.currentTimeMillis());
 
-
             if (chapterTitle.isEmpty() || chapterNumber.isEmpty() || surveyId.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Name and Description cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
                 Chapter chapter = new Chapter();
                 try {
                     chapter.setSurveyId(Integer.parseInt(surveyId));
+                    chapter.setChapterTitle(chapterTitle);
+                    chapter.setChapterNumber(chapterNumber);
+                    chapter.setCreatedAt(createdAt);
+                    chapter.setUpdatedAt(updatedAt);
+                    createChapterUseCase.execute(chapter);
+                    JOptionPane.showMessageDialog(this, "Chapter added successfully.");
+                    surveyIdField.setText("");
+                    titleField.setText("");
+                    numberField.setText("");
+                    cardLayout.show(mainPanel, "Menu");
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(this, "Invalid input. Please enter a valid integer.", "Error", JOptionPane.ERROR_MESSAGE);
+                    surveyIdField.setText("");
                 }
-                
-                chapter.setChapterTitle(chapterTitle);
-                chapter.setChapterNumber(chapterNumber);
-                chapter.setCreatedAt(createdAt);
-                chapter.setUpdatedAt(updatedAt);
-                createChapterUseCase.execute(chapter);
-                JOptionPane.showMessageDialog(this, "Chapter added successfully.");
-                surveyIdField.setText("");
-                titleField.setText("");
-                numberField.setText("");
             }
         });
     
