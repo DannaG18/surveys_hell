@@ -71,7 +71,7 @@ public class CategoryRepository implements CategoryService{
 
     @Override
     public void updateCategoty(Category category) {
-        String sql = "UPDATE category SET created_at = ?, updated_at = NOW(), name = ? WHERE id = ?";
+        String sql = "UPDATE category SET updated_at = NOW(), name = ? WHERE id = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setDate(1, category.getCreatedAt());

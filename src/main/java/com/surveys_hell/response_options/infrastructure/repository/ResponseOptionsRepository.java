@@ -88,18 +88,17 @@ public class ResponseOptionsRepository implements ResponseOptionsService{
 
     @Override
     public void updateResponseOptions(ResponseOptions responseOptions) {
-        String sql = "UPDATE response_options SET option_value = ?, category_catalog_id = ?, created_at = ?, parent_response_id = ?, question_id = ?, updated_at = NOW(), type_component_html = ?, comment_reponse = ?, option_text = ? WHERE id = ?";
+        String sql = "UPDATE response_options SET option_value = ?, category_catalog_id = ?, parent_response_id = ?, question_id = ?, updated_at = NOW(), type_component_html = ?, comment_reponse = ?, option_text = ? WHERE id = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, responseOptions.getOptionValue());
             ps.setInt(2, responseOptions.getCategoryCatalogId());
-            ps.setDate(3, responseOptions.getCreatedAt());
-            ps.setInt(4, responseOptions.getParentResponse());
-            ps.setInt(5, responseOptions.getQuestionId());
-            ps.setString(6, responseOptions.getTypeComponentHtml());
-            ps.setString(7, responseOptions.getCommentReponse());
-            ps.setString(8, responseOptions.getOptionText());
-            ps.setInt(9, responseOptions.getId());
+            ps.setInt(3, responseOptions.getParentResponse());
+            ps.setInt(4, responseOptions.getQuestionId());
+            ps.setString(5, responseOptions.getTypeComponentHtml());
+            ps.setString(6, responseOptions.getCommentReponse());
+            ps.setString(7, responseOptions.getOptionText());
+            ps.setInt(8, responseOptions.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
