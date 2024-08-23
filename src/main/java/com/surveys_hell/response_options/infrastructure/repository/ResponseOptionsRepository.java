@@ -31,7 +31,7 @@ public class ResponseOptionsRepository implements ResponseOptionsService{
 
     @Override
     public void createResponseOptions(ResponseOptions responseOptions) {
-        String sql = "INSERT INTO response_options (option_value, category_catalog_id, created_at, parent_response_id, question_id, updated_at, type_component_html, comment_reponse, option_text) VALUES (?, ?, NOW(), ?, ?, NOW(), ?, ?, ?)";
+        String sql = "INSERT INTO response_options (option_value, category_catalog_id, created_at, parent_response_id, question_id, updated_at, type_component_html, comment_reponse, option_text) VALUES (?, ?, NOW(), ?, ?, NOW(), , ?, ?)";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, responseOptions.getOptionValue());
@@ -88,17 +88,16 @@ public class ResponseOptionsRepository implements ResponseOptionsService{
 
     @Override
     public void updateResponseOptions(ResponseOptions responseOptions) {
-        String sql = "UPDATE response_options SET option_value = ?, category_catalog_id = ?, parent_response_id = ?, question_id = ?, updated_at = NOW(), type_component_html = ?, comment_reponse = ?, option_text = ? WHERE id = ?";
+        String sql = "UPDATE response_options SET option_value = ?, category_catalog_id = ?, parent_response_id = ?, question_id = ?, updated_at = NOW(), comment_reponse = ?, option_text = ? WHERE id = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, responseOptions.getOptionValue());
             ps.setInt(2, responseOptions.getCategoryCatalogId());
             ps.setInt(3, responseOptions.getParentResponse());
             ps.setInt(4, responseOptions.getQuestionId());
-            ps.setString(5, responseOptions.getTypeComponentHtml());
-            ps.setString(6, responseOptions.getCommentReponse());
-            ps.setString(7, responseOptions.getOptionText());
-            ps.setInt(8, responseOptions.getId());
+            ps.setString(5, responseOptions.getCommentReponse());
+            ps.setString(6, responseOptions.getOptionText());
+            ps.setInt(7, responseOptions.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

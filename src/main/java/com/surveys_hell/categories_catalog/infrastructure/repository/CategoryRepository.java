@@ -53,7 +53,7 @@ public class CategoryRepository implements CategoryService{
 
     @Override
     public Optional<Category> findCategory(int id) {
-        String sql = "SELECT * FROM category WHERE id = ? ";
+        String sql = "SELECT * FROM categories_catalog WHERE id = ? ";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, id);
