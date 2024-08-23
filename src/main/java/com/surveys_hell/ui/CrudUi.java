@@ -1,4 +1,4 @@
-package com.surveys_hell.ui.crud_ui;
+package com.surveys_hell.ui;
 
 import javax.swing.*;
 import java.awt.*;

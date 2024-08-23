@@ -1,18 +1,22 @@
-package com.surveys_hell.ui.options_ui;
+package com.surveys_hell.ui;
 
 import javax.swing.*;
-import java.awt.*;
-import java.util.List;
-import java.util.ArrayList;
 
 import com.surveys_hell.login.infrastructure.controller.LoginController;
 import com.surveys_hell.survey.application.GetAllSurveyUseCase;
 import com.surveys_hell.survey.domain.service.SurveyService;
 import com.surveys_hell.survey.infrastructure.repository.SurveyRepository;
+import com.surveys_hell.ui.SurveyUi;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+import java.util.ArrayList;
 
 public class OptionsUi extends JFrame {
-    private JPanel mainPanel; 
-    private CardLayout cardLayout; 
+    private JPanel mainPanel;
+    private CardLayout cardLayout;
     private SurveyService surveyService;
     private GetAllSurveyUseCase getAllSurveyUseCase;
     private JComboBox<String> nameComboBox;
@@ -22,10 +26,10 @@ public class OptionsUi extends JFrame {
         surveyService = new SurveyRepository();
         getAllSurveyUseCase = new GetAllSurveyUseCase(surveyService);
 
-        // Configuración del JFrame
+        // JFrame Configuration
         ImageIcon windowIcon = new ImageIcon("src/main/resources/img/Hospital.png");
         setIconImage(windowIcon.getImage());
-        setTitle("Select survey");
+        setTitle("Select Survey");
         setSize(400, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -34,19 +38,14 @@ public class OptionsUi extends JFrame {
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
 
-        // Paneles para cada operación
         JPanel addPanel = createOperationPanel("Select Survey", "Select", createAddPanel());
 
-        // Añadir los paneles al CardLayout
         mainPanel.add(addPanel, "Search");
 
-        // Añadir el panel principal al JFrame
         add(mainPanel);
 
-        // Mostrar el menú inicial
         cardLayout.show(mainPanel, "Menu");
 
-        // Hacer visible la ventana
         setVisible(true);
     }
 
@@ -111,48 +110,55 @@ public class OptionsUi extends JFrame {
 
     private JPanel createAddPanel() {
         JPanel panel = new JPanel(new BorderLayout());
-    
+
         JPanel formPanel = new JPanel(new GridLayout(6, 2, 10, 10));
 
-        // Crear DefaultComboBoxModel para el JComboBox
         comboBoxModel = new DefaultComboBoxModel<>();
         nameComboBox = new JComboBox<>(comboBoxModel);
         nameComboBox.setPreferredSize(new Dimension(100, 30));
 
-        // Llenar el ComboBox con las encuestas actuales
         updateSurveyOptions();
 
-        JButton submitButton = createRoundedButton("Submit");
         JButton backButton = createRoundedButton("Back");
 
         formPanel.add(nameComboBox);
-        formPanel.add(submitButton);
         formPanel.add(backButton);
-    
+
         JPanel marginPanel = new JPanel(new BorderLayout());
         marginPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
         marginPanel.add(formPanel, BorderLayout.CENTER);
-    
+
         panel.add(marginPanel, BorderLayout.CENTER);
-    
+
         backButton.addActionListener(e -> new LoginController());
-    
+
+        // Add ActionListener to the JComboBox
+        nameComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selectedSurvey = (String) nameComboBox.getSelectedItem();
+                if (selectedSurvey != null && !selectedSurvey.equals("Select an option")) {
+                    // Redirect to a new UI or controller with the selected survey
+                    new SurveyUi(selectedSurvey); // Open a new UI with survey information
+                }
+            }
+        });
+
         return panel;
     }
 
     private void updateSurveyOptions() {
-        comboBoxModel.removeAllElements(); // Clear the existing model
+        comboBoxModel.removeAllElements(); 
         comboBoxModel.addElement("Select an option");
-    
-        List<String> surveyNames = new ArrayList<>(); // Create the empty list
-        getAllSurveyUseCase.execute(surveyNames);// Pass the list to the method
+
+        List<String> surveyNames = new ArrayList<>(); 
+        getAllSurveyUseCase.execute(surveyNames);
         for (String surveyName : surveyNames) {
-            comboBoxModel.addElement(surveyName); // Add each survey to the model
+            comboBoxModel.addElement(surveyName); 
         }
     }
-    
+
     public static void main(String[] args) {
         new OptionsUi();
     }
 }
-
