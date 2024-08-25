@@ -1,4 +1,4 @@
-package com.surveys_hell.ui;
+/* package com.surveys_hell.ui;
 
 import java.awt.BorderLayout;
 
@@ -71,4 +71,4 @@ public class SurveyUi extends JFrame{
             contentPanel.add(chapterPanel);
         }
     }
-}
+} */
