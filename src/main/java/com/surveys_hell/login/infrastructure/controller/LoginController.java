@@ -1,18 +1,29 @@
 package com.surveys_hell.login.infrastructure.controller;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Optional;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
 import com.surveys_hell.login.application.LoginAutheticationUseCase;
+import com.surveys_hell.login.application.LoginRolesUseCase;
 import com.surveys_hell.login.domain.entity.LoginUsers;
 import com.surveys_hell.login.domain.service.LoginService;
 import com.surveys_hell.login.infrastructure.repository.LoginRepository;
-import com.surveys_hell.login.application.LoginRolesUseCase;
 import com.surveys_hell.ui.CrudUi;
-import com.surveys_hell.ui.OptionsUi;
+/* import com.surveys_hell.ui.OptionsUi; */
+import com.surveys_hell.ui.surveydirector.infrastructure.controller.SurveyDirectorController;
 
 public class LoginController extends JFrame implements ActionListener {
 
@@ -102,10 +113,8 @@ public class LoginController extends JFrame implements ActionListener {
                 menu.setVisible(true);
             } else {
                 setVisible(false);
-                OptionsUi menu = new OptionsUi();
-                menu.setResizable(false);
-                menu.setLocationRelativeTo(null);
-                menu.setVisible(true);
+                SurveyDirectorController surveyAdapter = new SurveyDirectorController();
+                surveyAdapter.start();
             }
         }
     }

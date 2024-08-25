@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
@@ -81,5 +83,23 @@ public class CategoryRepository implements CategoryService{
         } catch (SQLException e) {
             e.printStackTrace();
         }  
+    }
+
+    @Override
+    public List<Category> getAllCategories() {
+        String sql = "SELECT * FROM categories_catalog";
+        List<Category> categories = new ArrayList<>();
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            try (ResultSet rs = ps.executeQuery()) {
+                while(rs.next()) {
+                    Category category = new Category(rs.getInt("id"), rs.getDate("created_at"), rs.getDate("updated_at"), rs.getString("name"));
+                    categories.add(category);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return categories;
     }
 }

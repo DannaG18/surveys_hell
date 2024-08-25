@@ -1,4 +1,4 @@
-package com.surveys_hell.ui;
+/* package com.surveys_hell.ui;
 
 import javax.swing.*;
 
@@ -13,6 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.ArrayList;
+
+import com.surveys_hell.survey.domain.entity.Survey;
 
 public class OptionsUi extends JFrame {
     private JPanel mainPanel;
@@ -151,14 +153,14 @@ public class OptionsUi extends JFrame {
         comboBoxModel.removeAllElements(); 
         comboBoxModel.addElement("Select an option");
 
-        List<String> surveyNames = new ArrayList<>(); 
-        getAllSurveyUseCase.execute(surveyNames);
-        for (String surveyName : surveyNames) {
-            comboBoxModel.addElement(surveyName); 
+        List<Survey> surveys = new ArrayList<>(); 
+        getAllSurveyUseCase.execute(surveys);
+        for (Survey survey : surveys) {
+            comboBoxModel.addElement(survey.getId() + " - " + survey.getName()); 
         }
     }
 
     public static void main(String[] args) {
         new OptionsUi();
     }
-}
+} */

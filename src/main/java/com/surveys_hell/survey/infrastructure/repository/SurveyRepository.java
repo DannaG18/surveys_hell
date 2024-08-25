@@ -87,13 +87,14 @@ public class SurveyRepository implements SurveyService{
     }
 
     @Override
-    public void getAllSurvey(List<String> names) {
-        String sql = "SELECT name FROM surveys";
+    public void getAllSurvey(List<Survey> surveys) {
+        String sql = "SELECT * FROM surveys";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             try (ResultSet rs = ps.executeQuery()) {
-                if(rs.next()) {
-                    names.add(rs.getString("name"));
+                while(rs.next()) {
+                    Survey survey = new Survey(rs.getInt("id"), rs.getDate("created_at"), rs.getDate("updated_at"), rs.getString("description"), rs.getString("name"));
+                    surveys.add(survey);
                 }
             }
             
