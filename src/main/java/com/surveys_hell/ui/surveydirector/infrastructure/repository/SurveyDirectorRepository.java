@@ -22,7 +22,7 @@ public class SurveyDirectorRepository implements SurveyDirectorService{
     public SurveyDirectorRepository() {
         try {
             Properties props = new Properties();
-            props.load(getClass().getClassLoader().getResourceAsStream("db.properties"));
+            props.load(getClass().getClassLoader().getResourceAsStream("configdb.properties"));
             String url = props.getProperty("url");
             String user = props.getProperty("user");
             String password = props.getProperty("password");

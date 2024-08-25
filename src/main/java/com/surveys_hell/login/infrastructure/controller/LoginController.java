@@ -22,7 +22,6 @@ import com.surveys_hell.login.domain.entity.LoginUsers;
 import com.surveys_hell.login.domain.service.LoginService;
 import com.surveys_hell.login.infrastructure.repository.LoginRepository;
 import com.surveys_hell.ui.CrudUi;
-/* import com.surveys_hell.ui.OptionsUi; */
 import com.surveys_hell.ui.surveydirector.infrastructure.controller.SurveyDirectorController;
 
 public class LoginController extends JFrame implements ActionListener {
