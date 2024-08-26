@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import javax.swing.JOptionPane;
+
 import com.surveys_hell.chapter.domain.entity.Chapter;
 import com.surveys_hell.question.domain.entity.Question;
 import com.surveys_hell.response_options.domain.entity.ResponseOptions;
@@ -52,7 +54,7 @@ public class SurveyDirectorRepository implements SurveyDirectorService{
     }
 
     @Override
-    public List<Question> findQuestionByCategory(int idChapter, int idCategory) {
+    public List<Question> findQuestionByCategory(int idChapter) {
         List<Question> questions = new ArrayList<>();
         try {
             String query = """
@@ -67,13 +69,10 @@ public class SurveyDirectorRepository implements SurveyDirectorService{
                         que.chapter_id,
                         cat.id AS categoria
                     FROM questions que
-                    INNER JOIN response_options rep ON que.id = rep.question_id
-                    INNER JOIN categories_catalog cat ON rep.categorycatalog_id = cat.id
-                    WHERE que.chapter_id = ? AND cat.id = ?
+                    WHERE que.chapter_id = ?
                     """;
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, idChapter);
-            ps.setInt(2, idCategory);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Question question = new Question();
@@ -154,6 +153,7 @@ public class SurveyDirectorRepository implements SurveyDirectorService{
             }
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
         return subresponses;
     }

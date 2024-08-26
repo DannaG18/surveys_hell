@@ -10,7 +10,7 @@ import com.surveys_hell.ui.surveydirector.domain.entity.SurveyDirector;
 
 public interface SurveyDirectorService {
     public List<Chapter> findChapterBySurvey(int id);
-    public List<Question> findQuestionByCategory(int idChapter, int idCategory);
+    public List<Question> findQuestionByCategory(int idChapter);
     public List<ResponseOptions> findResponseByQuestion(int id);
     public List<SubresponseOptions> findSubresponseByQuestion(int id);
     public void createSurveyDirector(SurveyDirector surveyDirector);

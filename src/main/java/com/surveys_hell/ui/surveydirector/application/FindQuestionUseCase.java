@@ -12,7 +12,7 @@ public class FindQuestionUseCase {
         this.surveyDirectorService = surveyDirectorService;
     }
 
-    public List<Question> execute(int idChapter, int idCategory) {
-        return surveyDirectorService.findQuestionByCategory(idChapter, idCategory);
+    public List<Question> execute(int idChapter) {
+        return surveyDirectorService.findQuestionByCategory(idChapter);
     }
 }

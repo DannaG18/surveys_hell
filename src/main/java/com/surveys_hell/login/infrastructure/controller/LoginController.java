@@ -99,9 +99,10 @@ public class LoginController extends JFrame implements ActionListener {
             LoginService loginService = new LoginRepository();
             LoginAutheticationUseCase loginAutheticationUseCase = new LoginAutheticationUseCase(loginService);
             Optional<LoginUsers> logged = loginAutheticationUseCase.login(user, pass);
+            int loggedId = logged.get().getId();
 
             LoginRolesUseCase loginRolesUseCase = new LoginRolesUseCase(loginService);
-            boolean admin = loginRolesUseCase.roles(logged.get().getId());
+            boolean admin = loginRolesUseCase.roles(loggedId);
 
 
             if (admin) {
@@ -113,7 +114,7 @@ public class LoginController extends JFrame implements ActionListener {
             } else {
                 setVisible(false);
                 SurveyDirectorController surveyAdapter = new SurveyDirectorController();
-                surveyAdapter.start();
+                surveyAdapter.start(loggedId);
             }
         }
     }

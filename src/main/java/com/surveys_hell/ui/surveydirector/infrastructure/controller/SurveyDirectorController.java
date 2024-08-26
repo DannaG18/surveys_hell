@@ -1,6 +1,8 @@
 package com.surveys_hell.ui.surveydirector.infrastructure.controller;
 
-import java.awt.Dimension;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,9 +11,14 @@ import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import com.surveys_hell.categories_catalog.application.GetAllCategoriesUseCase;
 import com.surveys_hell.categories_catalog.domain.entity.Category;
@@ -28,6 +35,9 @@ import com.surveys_hell.survey.application.GetAllSurveyUseCase;
 import com.surveys_hell.survey.domain.entity.Survey;
 import com.surveys_hell.survey.domain.service.SurveyService;
 import com.surveys_hell.survey.infrastructure.repository.SurveyRepository;
+import com.surveys_hell.survey_user.application.CreateSurveyUserUseCase;
+import com.surveys_hell.survey_user.domain.service.SurveyUserService;
+import com.surveys_hell.survey_user.infrastructure.repository.SurveyUserRepository;
 import com.surveys_hell.ui.surveydirector.application.CreateSurveyDIrectorUseCase;
 import com.surveys_hell.ui.surveydirector.application.FindAllSubresponseUseCase;
 import com.surveys_hell.ui.surveydirector.application.FindChapterUseCase;
@@ -49,6 +59,9 @@ public class SurveyDirectorController extends JFrame{
     ResponseOptionsService responseOptionsService;
     FindResponseOptionsUseCase findResponseOptionsUseCase;
 
+    SurveyUserService surveyUserService;
+    CreateSurveyUserUseCase createSurveyUserUseCase;
+
     FindChapterUseCase findChapterUseCase;
     FindQuestionUseCase findQuestionUseCase;
     FindResponseUseCase findResponseUseCase;
@@ -57,24 +70,40 @@ public class SurveyDirectorController extends JFrame{
 
     JComboBox<String> nameComboBox;
     DefaultComboBoxModel<String> comboBoxModel;
+    JPanel contentPanel;
+    JScrollPane scrollPane;
 
     public SurveyDirectorController() {
         surveyDirectorService = new SurveyDirectorRepository();
         responseOptionsService = new ResponseOptionsRepository();
         surveyService = new SurveyRepository();
         categoryService = new CategoryRepository();
+        surveyUserService = new SurveyUserRepository();
 
         getAllSurveyUseCase = new GetAllSurveyUseCase(surveyService);
         getAllCategoriesUseCase = new GetAllCategoriesUseCase(categoryService);
         findResponseOptionsUseCase = new FindResponseOptionsUseCase(responseOptionsService);
+        createSurveyUserUseCase = new CreateSurveyUserUseCase(surveyUserService);
         findChapterUseCase = new FindChapterUseCase(surveyDirectorService);
         findQuestionUseCase = new FindQuestionUseCase(surveyDirectorService);
         findResponseUseCase = new FindResponseUseCase(surveyDirectorService);
         findAllSubresponseUseCase = new FindAllSubresponseUseCase(surveyDirectorService);
         createSurveyDIrectorUseCase = new CreateSurveyDIrectorUseCase(surveyDirectorService);
+
+        setTitle("Survey Viewer");
+        setSize(800, 600);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        contentPanel = new JPanel();
+        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+        scrollPane = new JScrollPane(contentPanel);
+        
+        
+        add(scrollPane, BorderLayout.CENTER);
     }
 
-    public void start() {
+    public void start(int user_id) {
         int opt = 0;
         String opts = "1. Contestar Encuesta\n2. Volver";
         do {
@@ -90,7 +119,7 @@ public class SurveyDirectorController extends JFrame{
                     int idSurvey = showSurvey();
                     int idChapter = showChapters(findChapterUseCase.execute(idSurvey));
                     int idcat = showCategories(getAllCategoriesUseCase.execute());
-                    int idQue = showQuestions(findQuestionUseCase.execute(idChapter, idcat));
+                    int idQue = showQuestions(findQuestionUseCase.execute(idChapter));
                     ResponseOptions response = showResponseOpt(findResponseUseCase.execute(idQue));
                     int idSub = showSubResponseOpt(findAllSubresponseUseCase.execute(response.getId()));
 
@@ -136,6 +165,52 @@ public class SurveyDirectorController extends JFrame{
             return id;
         }
         return 0;
+    }
+
+    public void showEncuesta(int survey_id) {
+        JPanel surveyPanel = new JPanel();
+        surveyPanel.setLayout(new BoxLayout(surveyPanel, BoxLayout.Y_AXIS));
+        JButton button = new JButton("Finish");
+        surveyPanel.add(button, BorderLayout.SOUTH);
+        contentPanel.add(surveyPanel, BorderLayout.CENTER);
+        for (Chapter chapter : findChapterUseCase.execute(survey_id)) {
+            JPanel chapterPanel = new JPanel();
+            chapterPanel.setLayout(new BoxLayout(chapterPanel, BoxLayout.Y_AXIS));
+            chapterPanel.setBorder(BorderFactory.createTitledBorder(chapter.getChapterNumber() + " - " + chapter.getChapterTitle()));
+
+            for (Question question : findQuestionUseCase.execute(chapter.getId())) {
+                JPanel questionPanel = new JPanel();
+                questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.Y_AXIS));
+                questionPanel.add(new JLabel(question.getQuestionNumber() + " - " + question.getQuestionText()));
+
+                for (ResponseOptions option : findResponseUseCase.execute(question.getId())) {
+                    questionPanel.add(new JCheckBox(option.getOptionText()));
+
+                    for (SubresponseOptions subOption : findAllSubresponseUseCase.execute(option.getId())) {
+                        if (subOption != null) {
+                            questionPanel.add(new JCheckBox(subOption.getSubresponseText()));
+                        }
+                    }
+                }
+                chapterPanel.add(questionPanel);
+            }
+            surveyPanel.add(chapterPanel);
+        }
+
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Component[] components = surveyPanel.getComponents();
+                for (Component component : components) {
+                    if (component instanceof JCheckBox) {
+                        JCheckBox checkBox = (JCheckBox) component;
+                        if(checkBox.isSelected()) {
+                            SurveyDirector surveyDirector = new SurveyDirector();
+                        }
+                    }
+                }
+            }
+        });
     }
 
     public int showChapters(List<Chapter> chapters) {
