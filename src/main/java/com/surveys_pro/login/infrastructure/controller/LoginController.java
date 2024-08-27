@@ -16,12 +16,22 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+<<<<<<< HEAD:src/main/java/com/surveys_pro/login/infrastructure/controller/LoginController.java
 import com.surveys_pro.login.application.LoginAutheticationUseCase;
 import com.surveys_pro.login.application.LoginRolesUseCase;
 import com.surveys_pro.login.domain.entity.LoginUsers;
 import com.surveys_pro.login.domain.service.LoginService;
 import com.surveys_pro.login.infrastructure.repository.LoginRepository;
 import com.surveys_pro.ui.*;
+=======
+import com.surveys_hell.login.application.LoginAutheticationUseCase;
+import com.surveys_hell.login.application.LoginRolesUseCase;
+import com.surveys_hell.login.domain.entity.LoginUsers;
+import com.surveys_hell.login.domain.service.LoginService;
+import com.surveys_hell.login.infrastructure.repository.LoginRepository;
+import com.surveys_hell.ui.CrudUi;
+import com.surveys_hell.ui.surveydirector.infrastructure.controller.SurveyDirectorController;
+>>>>>>> 5e52323fb5170a306faaee84510786cdb77be590:src/main/java/com/surveys_hell/login/infrastructure/controller/LoginController.java
 
 public class LoginController extends JFrame implements ActionListener {
 
