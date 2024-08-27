@@ -8,11 +8,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.Optional;
 
 import com.surveys_hell.chapter.domain.entity.Chapter;
 import com.surveys_hell.question.domain.entity.Question;
 import com.surveys_hell.response_options.domain.entity.ResponseOptions;
 import com.surveys_hell.subresponse_options.domain.entity.SubresponseOptions;
+import com.surveys_hell.survey.domain.entity.Survey;
 import com.surveys_hell.ui.surveydirector.domain.entity.SurveyDirector;
 import com.surveys_hell.ui.surveydirector.domain.service.SurveyDirectorService;
 
@@ -22,7 +24,7 @@ public class SurveyDirectorRepository implements SurveyDirectorService{
     public SurveyDirectorRepository() {
         try {
             Properties props = new Properties();
-            props.load(getClass().getClassLoader().getResourceAsStream("db.properties"));
+            props.load(getClass().getClassLoader().getResourceAsStream("configdb.properties"));
             String url = props.getProperty("url");
             String user = props.getProperty("user");
             String password = props.getProperty("password");
@@ -52,7 +54,7 @@ public class SurveyDirectorRepository implements SurveyDirectorService{
     }
 
     @Override
-    public List<Question> findQuestionByCategory(int idChapter, int idCategory) {
+    public List<Question> findQuestionByCategory(int idCategory) {
         List<Question> questions = new ArrayList<>();
         try {
             String query = """
@@ -68,12 +70,12 @@ public class SurveyDirectorRepository implements SurveyDirectorService{
                         cat.id AS categoria
                     FROM questions que
                     INNER JOIN response_options rep ON que.id = rep.question_id
-                    INNER JOIN categories_catalog cat ON rep.categorycatalog_id = cat.id
-                    WHERE que.chapter_id = ? AND cat.id = ?
+                    INNER JOIN categories_catalog cat ON rep.category_catalog_id = cat.id
+                    WHERE cat.id = ?
                     """;
             PreparedStatement ps = connection.prepareStatement(query);
-            ps.setInt(1, idChapter);
-            ps.setInt(2, idCategory);
+            // ps.setInt(1, idChapter);
+            ps.setInt(1, idCategory);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Question question = new Question();
@@ -103,12 +105,12 @@ public class SurveyDirectorRepository implements SurveyDirectorService{
                         created_at,
                         updated_at,
                         option_value,
-                        typecomponenthtml,
-                        comment_response,
+                        type_component_html,
+                        comment_reponse,
                         option_text,
-                        categorycatalog_id,
+                        category_catalog_id,
                         question_id,
-                        parentresponse_id
+                        parent_response_id
                     FROM response_options
                     WHERE question_id = ?
                     """;
@@ -179,5 +181,23 @@ public class SurveyDirectorRepository implements SurveyDirectorService{
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+        @Override
+    public Optional<Survey> findSurvey(String name) {
+        String sql = "SELECT * FROM surveys WHERE name = ? ";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, name);
+            try (ResultSet rs = ps.executeQuery()) {
+                if(rs.next()) {
+                    Survey survey = new Survey(rs.getInt("id"), rs.getDate("created_at"), rs.getDate("updated_at"), rs.getString("description"), rs.getString("name"));
+                    return Optional.of(survey);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
     }
 }

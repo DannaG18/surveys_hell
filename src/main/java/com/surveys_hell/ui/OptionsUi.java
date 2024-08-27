@@ -1,4 +1,4 @@
-/* package com.surveys_hell.ui;
+package com.surveys_hell.ui;
 
 import javax.swing.*;
 
@@ -6,7 +6,7 @@ import com.surveys_hell.login.infrastructure.controller.LoginController;
 import com.surveys_hell.survey.application.GetAllSurveyUseCase;
 import com.surveys_hell.survey.domain.service.SurveyService;
 import com.surveys_hell.survey.infrastructure.repository.SurveyRepository;
-import com.surveys_hell.ui.SurveyUi;
+import com.surveys_hell.ui.surveydirector.infrastructure.controller.SurveyDirectorController;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -141,7 +141,7 @@ public class OptionsUi extends JFrame {
                 String selectedSurvey = (String) nameComboBox.getSelectedItem();
                 if (selectedSurvey != null && !selectedSurvey.equals("Select an option")) {
                     // Redirect to a new UI or controller with the selected survey
-                    new SurveyUi(selectedSurvey); // Open a new UI with survey information
+                    new SurveyDirectorController(selectedSurvey); // Open a new UI with survey information
                 }
             }
         });
@@ -156,11 +156,11 @@ public class OptionsUi extends JFrame {
         List<Survey> surveys = new ArrayList<>(); 
         getAllSurveyUseCase.execute(surveys);
         for (Survey survey : surveys) {
-            comboBoxModel.addElement(survey.getId() + " - " + survey.getName()); 
+            comboBoxModel.addElement(survey.getName()); 
         }
     }
 
     public static void main(String[] args) {
         new OptionsUi();
     }
-} */
+} 

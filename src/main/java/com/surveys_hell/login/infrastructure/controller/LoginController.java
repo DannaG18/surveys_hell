@@ -22,8 +22,7 @@ import com.surveys_hell.login.domain.entity.LoginUsers;
 import com.surveys_hell.login.domain.service.LoginService;
 import com.surveys_hell.login.infrastructure.repository.LoginRepository;
 import com.surveys_hell.ui.CrudUi;
-/* import com.surveys_hell.ui.OptionsUi; */
-import com.surveys_hell.ui.surveydirector.infrastructure.controller.SurveyDirectorController;
+import com.surveys_hell.ui.*;
 
 public class LoginController extends JFrame implements ActionListener {
 
@@ -113,8 +112,11 @@ public class LoginController extends JFrame implements ActionListener {
                 menu.setVisible(true);
             } else {
                 setVisible(false);
-                SurveyDirectorController surveyAdapter = new SurveyDirectorController();
-                surveyAdapter.start();
+                setVisible(false);
+                OptionsUi menu = new OptionsUi();
+                menu.setResizable(false);
+                menu.setLocationRelativeTo(null);
+                menu.setVisible(true);
             }
         }
     }
