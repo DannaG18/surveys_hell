@@ -93,7 +93,7 @@ VALUES
 (NOW(), NOW(), 1, '2', 'dropdown', 'Gender considerations', 'What is your gender?'),
 (NOW(), NOW(), 1, '3', 'yes_no', 'Applicable only to women', 'Are you pregnant? (for women only)'),
 (NOW(), NOW(), 1, '4', 'text', 'BMI calculation', 'What is your weight and height?'),
-(NOW(), NOW(), 1, '5', 'yes_no', 'Smoking history impact on surgery', 'Do you have a history of tobacco use?'),
+(NOW(), NOW(), 1, '5', 'yes_no', 'Smoking history impact on surgery', 'Do you have a history of tobacco use?');
 -- Y así sucesivamente para el resto de las preguntas.
 
 INSERT INTO response_options (option_value, category_catalog_id, created_at, parent_response_id, question_id, updated_at, type_component_html, comment_reponse, option_text)
@@ -104,17 +104,17 @@ VALUES
 (4, 1, NOW(), NULL, 1, NOW(), 'radio', 'Age group option', 'Over 60 years'),
 (1, 2, NOW(), NULL, 1, NOW(), 'radio', 'Risk associated with age', 'Low risk'),
 (2, 2, NOW(), NULL, 1, NOW(), 'radio', 'Risk associated with age', 'Moderate risk'),
-(3, 2, NOW(), NULL, 1, NOW(), 'radio', 'Risk associated with age', 'High risk'),
+(3, 2, NOW(), NULL, 1, NOW(), 'radio', 'Risk associated with age', 'High risk');
 -- Y así sucesivamente para el resto de las opciones de respuesta.
 
 INSERT INTO subresponse_options (subresponse_number, created_at, response_options_id, updated_at, component_html, subresponse_text)
 VALUES
 (1, NOW(), 3, NOW(), 'text', 'Specify the type of surgery'),
-(2, NOW(), 5, NOW(), 'text', 'Specify the name and dosage'),
+(2, NOW(), 5, NOW(), 'text', 'Specify the name and dosage');
 -- Y así sucesivamente para el resto de las subopciones de respuesta.
 
 INSERT INTO response_question (response_id, subresponse_id, response_text)
 VALUES
 (1, NULL, 'Selected Age Group: 18-35 years'),
-(2, NULL, 'Selected Risk Level: Moderate risk'),
+(2, NULL, 'Selected Risk Level: Moderate risk');
 -- Y así sucesivamente para las demás respuestas.
