@@ -5,49 +5,77 @@ import java.util.List;
 public class ResponseOptionsDto {
     private int id;
     private String name;
-    private List<CategoryDto> childCategory;
+    private int categoryId;
+    private String categoryName;
     private List<SubresponseOptionsDto> childSubresponse;
 
-    public ResponseOptionsDto(){}
+    
+    public ResponseOptionsDto() {
+    }
 
-    public ResponseOptionsDto(int id, String name, List<CategoryDto> childCategory,
+
+    public ResponseOptionsDto(int id, String name, int categoryId, String categoryName,
             List<SubresponseOptionsDto> childSubresponse) {
         this.id = id;
         this.name = name;
-        this.childCategory = childCategory;
+        this.categoryId = categoryId;
+        this.categoryName = categoryName;
         this.childSubresponse = childSubresponse;
     }
+
 
     public int getId() {
         return id;
     }
 
+
     public void setId(int id) {
         this.id = id;
     }
+
 
     public String getName() {
         return name;
     }
 
+
     public void setName(String name) {
         this.name = name;
     }
 
-    public List<CategoryDto> getChildCategory() {
-        return childCategory;
+
+    public int getCategoryId() {
+        return categoryId;
     }
 
-    public void setChildCategory(List<CategoryDto> childCategory) {
-        this.childCategory = childCategory;
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
+
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
 
     public List<SubresponseOptionsDto> getChildSubresponse() {
         return childSubresponse;
     }
 
+
     public void setChildSubresponse(List<SubresponseOptionsDto> childSubresponse) {
         this.childSubresponse = childSubresponse;
     }
+
+
+
+
+    
     
 }

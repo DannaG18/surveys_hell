@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
-import com.surveys_pro.categories_catalog.infrastructure.repository.CategoryRepository;
+
 import com.surveys_pro.dto.ResponseOptionsDto;
 import com.surveys_pro.response_options.domain.entity.ResponseOptions;
 import com.surveys_pro.response_options.domain.service.ResponseOptionsService;
@@ -18,7 +18,6 @@ import com.surveys_pro.subresponse_options.infrastructure.repository.Subresponse
 
 public class ResponseOptionsRepository implements ResponseOptionsService{
     private Connection connection;
-    private CategoryRepository categoryRepository;
     private SubresponseOptionsRepository subresponseOptionsRepository;
 
 
@@ -113,20 +112,26 @@ public class ResponseOptionsRepository implements ResponseOptionsService{
 
     @Override
     public List<ResponseOptionsDto> findResponseDto(int id) {
-        String sql = "SELECT * FROM response_options WHERE id = ? ";
+        String sql = """
+                    SELECT re.id, re.option_text, cat.name, re.category_catalog_id
+                    FROM response_options re
+                    JOIN categories_catalog cat ON cat.id = re.category_catalog_id
+                    WHERE question_id = ?                     
+                            """ ;
         List<ResponseOptionsDto> responseList = new ArrayList<>(); 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
-                if(rs.next()) {
+                while(rs.next()) {
                     responseList.add(
                         new ResponseOptionsDto(
                         rs.getInt("id"),
                         rs.getString("option_text"),
-                        categoryRepository.findCategoryDto(rs.getInt("id")),
-                        subresponseOptionsRepository.findSubresponseOptionsDto(rs.getInt("id")))
-                        ); 
+                        rs.getInt("category_catalog_id"),
+                        rs.getString("name"),
+                        subresponseOptionsRepository.findSubresponseOptionsDto(rs.getInt("id"))
+                        ));
                 }
                 return responseList;
             }

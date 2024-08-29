@@ -119,14 +119,18 @@ public class QuestionRepository implements QuestionService{
 
     @Override
     public List<QuestionDto> findQuestionDto(int id) {
-        String sql = "SELECT * FROM questions WHERE id = ? ";
+        String sql = "SELECT * FROM questions WHERE chapter_id = ? ";
         List<QuestionDto> questionDto = new ArrayList<>();
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
-                if(rs.next()) {
-                    questionDto.add(new QuestionDto(rs.getInt("id"), rs.getString("question_text"), responseOptionsRepository.findResponseDto(rs.getInt("id")))); 
+                while(rs.next()) {
+                    questionDto.add(new QuestionDto(
+                        rs.getInt("id"),
+                        rs.getString("question_text"),
+                        responseOptionsRepository.findResponseDto(rs.getInt("id"))
+                        )); 
                 }
                 return questionDto;
             }

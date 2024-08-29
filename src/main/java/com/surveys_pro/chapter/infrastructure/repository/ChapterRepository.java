@@ -114,14 +114,18 @@ public class ChapterRepository implements ChapterService{
 
     @Override
     public List<ChapterDto> findChapterDto(int id) {
-        String sql = "SELECT * FROM chapter WHERE id = ? ";
+        String sql = "SELECT * FROM chapter WHERE survey_id = ? ";
         List<ChapterDto> chapterList = new ArrayList<>();
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
-                if(rs.next()) {
-                    chapterList.add(new ChapterDto(rs.getInt("id"), rs.getString("chapter_title"), questionRepository.findQuestionDto(rs.getInt("id"))));    
+                while(rs.next()) {
+                    chapterList.add(new ChapterDto(
+                        rs.getInt("id"),
+                        rs.getString("chapter_title"),
+                        rs.getString("chapter_number"),
+                        questionRepository.findQuestionDto(rs.getInt("id"))));    
                 }
                   return chapterList;
             }

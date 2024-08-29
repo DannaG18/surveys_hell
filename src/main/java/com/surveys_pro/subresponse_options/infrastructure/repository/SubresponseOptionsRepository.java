@@ -93,14 +93,23 @@ public class SubresponseOptionsRepository implements SubresponseOptionsService{
 
     @Override
     public List<SubresponseOptionsDto> findSubresponseOptionsDto(int id) {
-        String sql = "SELECT * FROM subresponse_options WHERE id = ? ";
+        String sql = """
+                    SELECT sub.id, sub.subresponse_text, re.option_text
+                    FROM subresponse_options sub
+                    JOIN response_options re ON re.id = sub.response_options_id
+                    WHERE response_options_id = ? 
+                        """;
         List<SubresponseOptionsDto> subresponseOptionsList = new ArrayList<>();
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 if(rs.next()) {
-                    subresponseOptionsList.add( new SubresponseOptionsDto(rs.getInt("id"), rs.getString("subresponse_text")));
+                    subresponseOptionsList.add(new SubresponseOptionsDto(
+                        rs.getInt("id"),
+                        rs.getString("subresponse_text"),
+                        rs.getString("option_text")
+                        ));
                 }
                 return subresponseOptionsList;
             }

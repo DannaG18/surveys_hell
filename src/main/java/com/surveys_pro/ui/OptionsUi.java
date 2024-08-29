@@ -2,6 +2,7 @@ package com.surveys_pro.ui;
 
 import javax.swing.*;
 
+import com.surveys_pro.dto.ui.DtoController;
 import com.surveys_pro.login.infrastructure.controller.LoginController;
 import com.surveys_pro.survey.application.GetAllSurveyUseCase;
 import com.surveys_pro.survey.domain.entity.Survey;
@@ -23,10 +24,12 @@ public class OptionsUi extends JFrame {
     private GetAllSurveyUseCase getAllSurveyUseCase;
     private JComboBox<String> nameComboBox;
     private DefaultComboBoxModel<String> comboBoxModel;
+    private DtoController dtoController;
 
     public OptionsUi() {
-        surveyService = new SurveyRepository();
-        getAllSurveyUseCase = new GetAllSurveyUseCase(surveyService);
+        this.dtoController = new DtoController();
+        this.surveyService = new SurveyRepository();
+        this.getAllSurveyUseCase = new GetAllSurveyUseCase(surveyService);
 
         // JFrame Configuration
         ImageIcon windowIcon = new ImageIcon("src/main/resources/img/Hospital.png");
@@ -144,7 +147,7 @@ public class OptionsUi extends JFrame {
                     int surveyId = getSurveyIdByName(selectedSurvey);
                     if (surveyId != -1) {
                         // Redirigir a una nueva UI o controlador con el ID de la encuesta seleccionada
-                        new SurveyDirectorController(surveyId).setVisible(true); // Abrir una nueva UI con la información de la encuesta
+                        new DtoController(); // Abrir una nueva UI con la información de la encuesta
                     } else {
                         JOptionPane.showMessageDialog(null, "Survey not found.");
                     }

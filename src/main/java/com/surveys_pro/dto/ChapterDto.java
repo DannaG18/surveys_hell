@@ -5,10 +5,29 @@ import java.util.List;
 public class ChapterDto {
     private int id;
     private String name;
+    private String chapterNumber;
     private List<QuestionDto> childQuestion;
 
     
     public ChapterDto() {
+    }
+
+
+    public String getChapterNumber() {
+        return chapterNumber;
+    }
+
+
+    public void setChapterNumber(String chapterNumber) {
+        this.chapterNumber = chapterNumber;
+    }
+
+
+    public ChapterDto(int id, String name, String chapterNumber, List<QuestionDto> childQuestion) {
+        this.id = id;
+        this.name = name;
+        this.chapterNumber = chapterNumber;
+        this.childQuestion = childQuestion;
     }
 
 
